@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import autoServer.DTO.TestSuiteDTO;
 import autoServer.services.impl.TestSuiteServices;
 
 @RequestMapping(value = "/api/testsuite")
@@ -17,5 +20,13 @@ public class testSuiteController{
 	@GetMapping(value = "/all")
 	public ResponseEntity<Object> findAll(){
 		return new ResponseEntity<>(testsuite.findAlls(),HttpStatus.OK);
+	}
+	@PostMapping(value = "/add/testsute")
+	public ResponseEntity<Object> insertSuite(@RequestBody TestSuiteDTO testSuiteDTO) {
+		String result = "FAIL";
+		if(testsuite.save(testSuiteDTO)) {
+			result = "OK";
+		}
+		return new ResponseEntity<>(result,HttpStatus.OK);
 	}
 }

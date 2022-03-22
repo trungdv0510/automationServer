@@ -13,5 +13,5 @@ public interface ITestLogServices {
 	public List<TestLogDTO> findAlls();
 	public List<TestLogDTO> findAlls(Pageable page);
 	public boolean update(TestLogDTO testlog);
-	public List<Integer> getCountPassFail();
+	public boolean saveAll(List<TestLogDTO> testLogDTOs);
 }

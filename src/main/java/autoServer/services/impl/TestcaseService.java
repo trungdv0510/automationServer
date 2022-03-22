@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import autoServer.Converter.TestCaseMapping;
 import autoServer.DTO.TestCaseDTO;
@@ -14,6 +16,7 @@ import autoServer.Entity.TestSuiteEntity;
 import autoServer.repository.testcaseRepository;
 import autoServer.services.ITestcaseServices;
 
+@Service
 public class TestcaseService implements ITestcaseServices{
 
 	@Autowired
@@ -97,9 +100,18 @@ public class TestcaseService implements ITestcaseServices{
 	}
 
 	@Override
-	public List<Integer> getCountPassFail() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean saveAll(List<TestCaseDTO> testcase) {
+		boolean result = false;
+		try {
+		long number = testcase.stream().map(i->testcaseRepository.saveAndFlush(mapping.toEntity(i))).count();
+		if ((int)number == testcase.size()) {
+			result = true;
+		}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }

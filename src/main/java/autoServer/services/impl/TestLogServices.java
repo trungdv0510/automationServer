@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import autoServer.Converter.TestLogMapping;
 import autoServer.DTO.TestLogDTO;
@@ -14,6 +15,7 @@ import autoServer.Entity.TestLogEntity;
 import autoServer.repository.testLogRepository;
 import autoServer.services.ITestLogServices;
 
+@Service
 public class TestLogServices implements ITestLogServices{
 
 	@Autowired
@@ -96,9 +98,19 @@ public class TestLogServices implements ITestLogServices{
 	}
 
 	@Override
-	public List<Integer> getCountPassFail() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean saveAll(List<TestLogDTO> testLogDTOs) {
+		boolean result = false;
+		try {
+		long number = testLogDTOs.stream().map(i->repository.saveAndFlush(mapping.toEntity(i))).count();
+		if ((int)number == testLogDTOs.size()) {
+			result = true;
+		}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 }
+
