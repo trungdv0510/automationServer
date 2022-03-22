@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import autoServer.DTO.TestSuiteDTO;
 
-public interface ITestSuiteServices {
+public interface IUserServices {
 	public boolean save(TestSuiteDTO testsuite);
 	public boolean delete(long[] id);
 	public List<TestSuiteDTO> findAlls();

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import autoServer.Converter.TestSuiteMapping;
 import autoServer.DTO.TestSuiteDTO;
 import autoServer.Entity.TestSuiteEntity;
+import autoServer.Utils.contains;
 import autoServer.repository.testSuiteRepository;
 import autoServer.services.ITestSuiteServices;
 @Service
@@ -89,6 +90,21 @@ public class TestSuiteServices implements ITestSuiteServices{
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public List<Integer> getCountPassFail() {
+		List<Integer> listPassFail = new ArrayList<Integer>();
+		try {
+			int totalPass = testSuiteRepository.getCountTestSuitePassOrFail(contains.pass);
+			int totalFail = testSuiteRepository.getCountTestSuitePassOrFail(contains.fail);
+			listPassFail.add(totalPass);
+			listPassFail.add(totalFail);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return listPassFail;
 	}
 
 }
