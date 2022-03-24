@@ -14,4 +14,6 @@ public interface ITestLogServices {
 	public List<TestLogDTO> findAlls(Pageable page);
 	public boolean update(TestLogDTO testlog);
 	public boolean saveAll(List<TestLogDTO> testLogDTOs);
+	public List<TestLogDTO> findAllTestLogsWithTestcaseUUID(String uuid);
+	public TestLogDTO findOneByID(Long id);
 }

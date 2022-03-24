@@ -112,5 +112,28 @@ public class TestLogServices implements ITestLogServices{
 		return result;
 	}
 
+	@Override
+	public List<TestLogDTO> findAllTestLogsWithTestcaseUUID(String uuid) {
+		List<TestLogDTO> listTesLog = null;
+		try {
+			listTesLog = repository.findAllTestWithTestCaseUUID(uuid).stream().map(i->mapping.toDTO(i)).collect(Collectors.toList());
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.getMessage();
+		}
+		return listTesLog;
+	}
+
+	@Override
+	public TestLogDTO findOneByID(Long id) {
+		TestLogDTO testLog = null; 
+		try {
+			testLog = mapping.toDTO(repository.findOneById(id));
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return testLog;
+	}
+
 }
 

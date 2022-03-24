@@ -107,4 +107,16 @@ public class TestSuiteServices implements ITestSuiteServices{
 		return listPassFail;
 	}
 
+	@Override
+	public TestSuiteDTO findOneByUUID(String uuid) {
+		TestSuiteDTO testSuiteDTO = null;
+		try {
+			testSuiteDTO = mapping.toDTO(testSuiteRepository.findOneByUUID(uuid));
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return testSuiteDTO;
+	}
+
 }

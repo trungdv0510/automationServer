@@ -13,4 +13,5 @@ public interface ITestSuiteServices {
 	public List<TestSuiteDTO> findAlls(Pageable page);
 	public boolean update(TestSuiteDTO testsuite);
 	public List<Integer> getCountPassFail();
+	public TestSuiteDTO findOneByUUID(String uuid);
 }
