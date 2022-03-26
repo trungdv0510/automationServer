@@ -1,7 +1,7 @@
 package autoServer.DTO;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -12,8 +12,8 @@ public abstract class AbtractDTO<T> {
 	private String UUID;
 	private String createBy;
 	private String modifyBy;
-	private Date createDate;
-	private Date modifyDate;
+	private LocalDateTime  createDate =  LocalDateTime.now();
+	private LocalDateTime  modifyDate =  LocalDateTime.now();
 	private String result;
 	List<T> list = new ArrayList<T>();
 	

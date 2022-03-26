@@ -27,7 +27,7 @@ public class testSuiteController{
 	public ResponseEntity<List<TestSuiteDTO>> findAll(){
 		return new ResponseEntity<>(testsuite.findAlls(),HttpStatus.OK);
 	}
-	@PostMapping(value = "/add/testsute")
+	@PostMapping(value = "/add", produces = "application/json")
 	public ResponseEntity<String> insertSuite(@RequestBody TestSuiteDTO testSuiteDTO) {
 		String result = "FAIL";
 		if(testsuite.save(testSuiteDTO)) {

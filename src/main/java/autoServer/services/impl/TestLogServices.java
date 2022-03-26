@@ -1,5 +1,9 @@
 package autoServer.services.impl;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,21 +11,25 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import autoServer.Converter.TestLogMapping;
 import autoServer.DTO.TestLogDTO;
 import autoServer.Entity.TestCaseEntity;
 import autoServer.Entity.TestLogEntity;
+import autoServer.Utils.contains;
+import autoServer.Utils.fileUtils;
 import autoServer.repository.testLogRepository;
 import autoServer.services.ITestLogServices;
 
 @Service
-public class TestLogServices implements ITestLogServices{
+public class TestLogServices implements ITestLogServices {
 
 	@Autowired
 	private TestLogMapping mapping;
-	@Autowired 
+	@Autowired
 	private testLogRepository repository;
+
 	@Override
 	public boolean save(TestLogDTO testlog) {
 		boolean result = false;
@@ -47,7 +55,7 @@ public class TestLogServices implements ITestLogServices{
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
-			
+
 		}
 		return result;
 	}
@@ -56,9 +64,7 @@ public class TestLogServices implements ITestLogServices{
 	public List<TestLogDTO> findAlls() {
 		List<TestLogDTO> testLogDTOs = new ArrayList<TestLogDTO>();
 		try {
-			testLogDTOs = repository.findAll().stream()
-							.map(i -> mapping.toDTO(i))
-							.collect(Collectors.toList());
+			testLogDTOs = repository.findAll().stream().map(i -> mapping.toDTO(i)).collect(Collectors.toList());
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -70,9 +76,7 @@ public class TestLogServices implements ITestLogServices{
 	public List<TestLogDTO> findAlls(Pageable page) {
 		List<TestLogDTO> testLogDTOs = new ArrayList<TestLogDTO>();
 		try {
-			testLogDTOs = repository.findAll().stream()
-							.map(i -> mapping.toDTO(i))
-							.collect(Collectors.toList());
+			testLogDTOs = repository.findAll().stream().map(i -> mapping.toDTO(i)).collect(Collectors.toList());
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -101,10 +105,10 @@ public class TestLogServices implements ITestLogServices{
 	public boolean saveAll(List<TestLogDTO> testLogDTOs) {
 		boolean result = false;
 		try {
-		long number = testLogDTOs.stream().map(i->repository.saveAndFlush(mapping.toEntity(i))).count();
-		if ((int)number == testLogDTOs.size()) {
-			result = true;
-		}
+			long number = testLogDTOs.stream().map(i -> repository.saveAndFlush(mapping.toEntity(i))).count();
+			if ((int) number == testLogDTOs.size()) {
+				result = true;
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -116,7 +120,8 @@ public class TestLogServices implements ITestLogServices{
 	public List<TestLogDTO> findAllTestLogsWithTestcaseUUID(String uuid) {
 		List<TestLogDTO> listTesLog = null;
 		try {
-			listTesLog = repository.findAllTestWithTestCaseUUID(uuid).stream().map(i->mapping.toDTO(i)).collect(Collectors.toList());
+			listTesLog = repository.findAllTestWithTestCaseUUID(uuid).stream().map(i -> mapping.toDTO(i))
+					.collect(Collectors.toList());
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.getMessage();
@@ -126,7 +131,7 @@ public class TestLogServices implements ITestLogServices{
 
 	@Override
 	public TestLogDTO findOneByID(Long id) {
-		TestLogDTO testLog = null; 
+		TestLogDTO testLog = null;
 		try {
 			testLog = mapping.toDTO(repository.findOneById(id));
 		} catch (Exception e) {
@@ -135,5 +140,30 @@ public class TestLogServices implements ITestLogServices{
 		return testLog;
 	}
 
-}
+	@Override
+	public String saveImgOrVideo(MultipartFile imgFile, String contentType) {
+		String result = "Error";
+		try {
+			if (fileUtils.checkContenTypeFile(imgFile, contentType)) {
+				byte[] bytes = imgFile.getBytes();
+				String fileName = contains.randomDate() + imgFile.getOriginalFilename();
+				Path path = null;
+				if(contentType.equals("jpg")) {
+					 path = Paths.get(contains.folderPublic + contains.folderImg + fileName);
+				}
+				else {
+					 path = Paths.get(contains.folderPublic + contains.folderVideo + fileName);
+				}
+				Files.write(path, bytes);
+				result = path.toString();
+			}
+		} catch (Exception e) {
+			// TODO: handle exceptionTC
+			e.getMessage();
+		}
+		return result;
+	}
 
+
+
+}

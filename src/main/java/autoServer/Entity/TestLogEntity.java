@@ -15,17 +15,17 @@ import lombok.ToString;
 @Entity
 @Table(name="testlog")
 public class TestLogEntity extends abtractEntity{
-	@Column
+	@Column(nullable = false)
 	private String stepName;
-	@Column
+	@Column(nullable = false)
 	private String result;
-	@Column
+	@Column(nullable = false)
 	private String detail;
-	@Column
+	@Column(nullable = false)
 	private String testLogTime;
-	@Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "TEXT", nullable = false)
 	private String imgPath;
-	@Column(columnDefinition = "TEXT")
+	@Column(columnDefinition = "TEXT",nullable = false)
 	private String videoPath;
 	@ManyToOne
 	@JoinColumn(name = "testcaseUUID",columnDefinition = "TEXT",nullable = false)

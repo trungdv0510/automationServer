@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,19 +20,19 @@ import lombok.ToString;
 @Entity
 @Table(name = "testcase")
 public class TestCaseEntity extends abtractEntity{
-	@Column
+	@Column(nullable = false)
 	private String testName;
-	@Column
+	@Column(nullable = false)
 	private String methodName;
-	@Column
+	@Column(nullable = false)
 	private String result;
-	@Column
+	@Column(nullable = false)
 	private String author;
-	@Column
+	@Column(nullable = false)
 	private String startTime;
-	@Column
+	@Column(nullable = false)
 	private String endTime;
-	@Column
+	@Column(nullable = false)
 	private String timeDuration;
 	@ManyToOne
 	@JoinColumn(name = "suiteUUID",nullable = false,columnDefinition = "text")

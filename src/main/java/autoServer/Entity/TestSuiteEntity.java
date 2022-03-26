@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @Table(name="testsuite")
 public class TestSuiteEntity extends abtractEntity{
 	@Column
-	private String SuiteName;
+	private String suiteName;
 	@Column
 	private String dateRun;
 	@Column

@@ -26,10 +26,13 @@ public class TestSuiteServices implements ITestSuiteServices{
 	public boolean save(TestSuiteDTO testsuite) {
 		boolean result = false;
 		try {
-			TestSuiteEntity entity = mapping.toEntity(testsuite);
-			testSuiteRepository.saveAndFlush(entity);
-			result = true;
-		} catch (Exception e) {
+			if(testsuite != null) {
+				TestSuiteEntity entity = mapping.toEntity(testsuite);
+				testSuiteRepository.save(entity);
+				result = true;
+			}
+			
+		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -43,7 +46,7 @@ public class TestSuiteServices implements ITestSuiteServices{
 				testSuiteRepository.deleteById(item);
 			}
 			result = true;
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -56,7 +59,7 @@ public class TestSuiteServices implements ITestSuiteServices{
 			testSuiteDTOs = testSuiteRepository.findAll().stream()
 							.map(i -> mapping.toDTO(i))
 							.collect(Collectors.toList());
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -69,7 +72,7 @@ public class TestSuiteServices implements ITestSuiteServices{
 			testSuiteDTOs = testSuiteRepository.findAll(page).getContent().stream()
 							.map(i -> mapping.toDTO(i))
 							.collect(Collectors.toList());
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -85,7 +88,7 @@ public class TestSuiteServices implements ITestSuiteServices{
 			testSuiteEntity.setResult(testsuite.getResult());
 			testSuiteRepository.saveAndFlush(testSuiteEntity);
 			result = true;
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -100,7 +103,7 @@ public class TestSuiteServices implements ITestSuiteServices{
 			int totalFail = testSuiteRepository.getCountTestSuitePassOrFail(contains.fail);
 			listPassFail.add(totalPass);
 			listPassFail.add(totalFail);
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -112,7 +115,7 @@ public class TestSuiteServices implements ITestSuiteServices{
 		TestSuiteDTO testSuiteDTO = null;
 		try {
 			testSuiteDTO = mapping.toDTO(testSuiteRepository.findOneByUUID(uuid));
-		} catch (Exception e) {
+		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}

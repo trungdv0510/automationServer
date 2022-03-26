@@ -1,6 +1,6 @@
 package autoServer.Entity;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -15,6 +15,8 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.module.kotlin.ReflectionCache.BooleanTriState.False;
+
 import lombok.Data;
 
 @Data
@@ -24,8 +26,8 @@ public abstract class abtractEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long id;
-	@Column
-	private String UUID;
+	@Column(nullable = false)
+	private String uuid;
 	@Column(nullable = false)
 	@CreatedBy
 	private String createBy;
@@ -34,8 +36,8 @@ public abstract class abtractEntity {
 	private String modifyBy;
 	@Column
 	@CreatedDate
-	private Date createDate;
+	private LocalDateTime createDate;
 	@Column
 	@LastModifiedDate
-	private Date modifyDate;
+	private LocalDateTime modifyDate;
 }

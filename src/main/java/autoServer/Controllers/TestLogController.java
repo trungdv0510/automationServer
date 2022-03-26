@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import autoServer.DTO.TestLogDTO;
 import autoServer.Utils.contains;
@@ -72,5 +74,13 @@ public class TestLogController {
 			status = HttpStatus.BAD_REQUEST;
 		}
 		return new ResponseEntity<>(testLog,contains.configHeader(), status);
+	}
+	@PostMapping(value = "/post/img",produces = "application/json")
+	public ResponseEntity<String> saveImg(@RequestParam("fileName") MultipartFile file){
+		return new ResponseEntity<>(testlogService.saveImgOrVideo(file, "jpg"), HttpStatus.OK);
+	}
+	@PostMapping(value = "/post/video",produces = "application/json")
+	public ResponseEntity<String> saveVideo(@RequestParam("fileName") MultipartFile file){
+		return new ResponseEntity<>(testlogService.saveImgOrVideo(file, "mp4"), HttpStatus.OK);
 	}
 }
