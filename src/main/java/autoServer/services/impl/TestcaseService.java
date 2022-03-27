@@ -129,8 +129,8 @@ public class TestcaseService implements ITestcaseServices{
 	}
 
 	@Override
-	public TestCaseDTO findOneByTestSuiteUUID(String uuid) {
-		TestCaseDTO testCase = null;
+	public List<TestCaseDTO> findByTestSuiteUUID(String uuid) {
+		List<TestCaseDTO> testCase = null;
 		try {
 			if (!StringUtils.isBlank(uuid)) {
 				testCase = testcaseRepository.findByTestSuiteUUID(uuid);

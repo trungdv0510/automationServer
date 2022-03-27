@@ -1,6 +1,10 @@
 package autoServer.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +28,7 @@ public class TestcaseController {
 	private TestcaseService testcaseService;
 
 	@PostMapping(value = "/add", produces = "application/json")
-	public ResponseEntity<String> insertTestcase(@RequestBody TestCaseDTO testcase) {
+	public ResponseEntity<String> insertTestcase(@Valid @RequestBody TestCaseDTO testcase) {
 		String result = "FAIL";
 		if (testcaseService.save(testcase)) {
 			result = "OK";
@@ -33,7 +37,7 @@ public class TestcaseController {
 	}
 
 	@PostMapping(value = "/adds", produces = "application/json")
-	public ResponseEntity<String> insertTestcases(@RequestBody List<TestCaseDTO> testcase) {
+	public ResponseEntity<String> insertTestcases(@Valid @RequestBody List<TestCaseDTO> testcase) {
 		String result = "FAIL";
 		if (testcaseService.saveAll(testcase)) {
 			result = "OK";
@@ -42,13 +46,14 @@ public class TestcaseController {
 	}
 
 	@GetMapping(value = "/get/{id}", produces = "application/json")
-	public ResponseEntity<TestCaseDTO> getTestcase(@PathVariable String uuid) {
-		TestCaseDTO testCase = null;
+	public ResponseEntity<?> getTestcase(@PathVariable(value = "id") @NotEmpty(message = "id is not null") String uuid) {
+		List<TestCaseDTO> testCase = new ArrayList<TestCaseDTO>();
 		HttpStatus status = HttpStatus.OK;
 		if (!StringUtils.isBlank(uuid)) {
-			 testCase = testcaseService.findOneByTestSuiteUUID(uuid);
+			 testCase = testcaseService.findByTestSuiteUUID(uuid);
 			 if (testCase == null) {
 				status = HttpStatus.NOT_FOUND;
+				return new ResponseEntity<>("Not Found "+uuid, contains.configHeader(), status);
 			}
 		}
 		else {

@@ -141,25 +141,30 @@ public class TestLogServices implements ITestLogServices {
 	}
 
 	@Override
-	public String saveImgOrVideo(MultipartFile imgFile, String contentType) {
+	public String saveImgOrVideo(MultipartFile imgFile) {
 		String result = "Error";
 		try {
-			if (fileUtils.checkContenTypeFile(imgFile, contentType)) {
+			if (fileUtils.checkContenTypeFile(imgFile)) {
+				int count = 0;
 				byte[] bytes = imgFile.getBytes();
 				String fileName = contains.randomDate() + imgFile.getOriginalFilename();
 				Path path = null;
-				if(contentType.equals("jpg")) {
+				if(imgFile.getContentType().equals(contains.contenTypeImg)) {
 					 path = Paths.get(contains.folderPublic + contains.folderImg + fileName);
+					 count++;
 				}
-				else {
+				else if(imgFile.getContentType().equals(contains.contentTypeVideo)) {
 					 path = Paths.get(contains.folderPublic + contains.folderVideo + fileName);
+					 count++;
 				}
-				Files.write(path, bytes);
-				result = path.toString();
+				if (count>=1) {
+					Files.write(path, bytes);
+					result = path.toString();
+				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exceptionTC
-			e.getMessage();
+			System.err.println(e.getMessage());
 		}
 		return result;
 	}

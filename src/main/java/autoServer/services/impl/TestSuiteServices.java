@@ -114,7 +114,8 @@ public class TestSuiteServices implements ITestSuiteServices{
 	public TestSuiteDTO findOneByUUID(String uuid) {
 		TestSuiteDTO testSuiteDTO = null;
 		try {
-			testSuiteDTO = mapping.toDTO(testSuiteRepository.findOneByUUID(uuid));
+			TestSuiteEntity testSuiteEntity = testSuiteRepository.findOneByUUID(uuid);
+			testSuiteDTO = mapping.toDTO(testSuiteEntity);
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();

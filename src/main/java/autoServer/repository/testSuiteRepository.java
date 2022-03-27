@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.fasterxml.jackson.module.kotlin.ReflectionCache.BooleanTriState.True;
-
 import autoServer.Entity.TestSuiteEntity;
 
 public interface testSuiteRepository extends JpaRepository<TestSuiteEntity, Long>{

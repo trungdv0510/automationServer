@@ -1,20 +1,31 @@
 package autoServer.config;
 
-import org.springframework.beans.factory.annotation.Configurable;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@Configurable
+@ControllerAdvice
 public class handleValideException {
-	@ExceptionHandler(BindException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)  // Nếu validate fail thì trả về 400
-	public String handleBindException(BindException e) {
-	    // Trả về message của lỗi đầu tiên
-	    String errorMessage = "Request không hợp lệ";
-	    if (e.getBindingResult().hasErrors())
-	       errorMessage = e.getBindingResult().getAllErrors().get(0).getDefaultMessage();
-	    return errorMessage;
+	// handle exception validate 
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<Map<String, String> > handleValidationExceptions(
+			MethodArgumentNotValidException ex) {
+	    Map<String, String> errors = new HashMap<>();
+	    ex.getBindingResult().getAllErrors().forEach((error) -> {
+	        String fieldName = ((FieldError) error).getField();
+	        String errorMessage = error.getDefaultMessage();
+	        errors.put(fieldName, errorMessage);
+	    });
+	    return new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
 	}
 }

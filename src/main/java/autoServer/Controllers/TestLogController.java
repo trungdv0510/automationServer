@@ -3,6 +3,10 @@ package autoServer.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +31,7 @@ public class TestLogController {
 	private ITestLogServices testlogService;
 
 	@PostMapping(value = "/add/testlog", produces = "application/json")
-	public ResponseEntity<String> insertTestcase(@RequestBody TestLogDTO testLog) {
+	public ResponseEntity<String> insertTestcase(@Valid @RequestBody TestLogDTO testLog) {
 		String result = "FAIL";
 		if (testlogService.save(testLog)) {
 			result = "OK";
@@ -36,7 +40,7 @@ public class TestLogController {
 	}
 
 	@PostMapping(value = "/add/testlogs", produces = "application/json")
-	public ResponseEntity<String> insertTestcases(@RequestBody List<TestLogDTO> testLogs) {
+	public ResponseEntity<String> insertTestcases(@Valid @RequestBody List<TestLogDTO> testLogs) {
 		String result = "FAIL";
 		if (testlogService.saveAll(testLogs)) {
 			result = "OK";
@@ -45,13 +49,14 @@ public class TestLogController {
 	}
 
 	@GetMapping(value = "/get/testlogs/{testcaseUUID}", produces = "application/json")
-	public ResponseEntity<List<TestLogDTO>> getListTestLogWithTestCaseUUID(@PathVariable String testcaseUUID) {
+	public ResponseEntity<?> getListTestLogWithTestCaseUUID(@PathVariable(value = "testcaseUUID") @NotBlank(message = "ID is not null") String testcaseUUID) {
 		List<TestLogDTO> testLogList = new ArrayList<TestLogDTO>();
 		HttpStatus status = HttpStatus.OK;
 		if (!StringUtils.isBlank(testcaseUUID)) {
 			testLogList = testlogService.findAllTestLogsWithTestcaseUUID(testcaseUUID);
 			if (testLogList == null) {
 				status = HttpStatus.NOT_FOUND;
+				return new ResponseEntity<>("Not found test log has "+testcaseUUID,contains.configHeader(), status);
 			}
 		}
 		else {
@@ -61,13 +66,13 @@ public class TestLogController {
 	}
 	
 	@GetMapping(value = "/get/testlog/{id}",produces = "application/json")
-	public ResponseEntity<TestLogDTO> getTestLogWithId(@PathVariable Long id) {
-		TestLogDTO testLog= new TestLogDTO();
-		HttpStatus status = HttpStatus.OK;
+	public ResponseEntity<Object> getTestLogWithId(@PathVariable(value = "id") @NotBlank Long id) {
+		Object testLog = "Not found";
+		HttpStatus status = HttpStatus.NOT_FOUND;
 		if (id<=0) {
 			testLog = testlogService.findOneByID(id);
-			if (testLog == null) {
-				status = HttpStatus.NOT_FOUND;
+			if (testLog != null) {
+				status = HttpStatus.OK;
 			}
 		}
 		else {
@@ -75,12 +80,22 @@ public class TestLogController {
 		}
 		return new ResponseEntity<>(testLog,contains.configHeader(), status);
 	}
-	@PostMapping(value = "/post/img",produces = "application/json")
-	public ResponseEntity<String> saveImg(@RequestParam("fileName") MultipartFile file){
-		return new ResponseEntity<>(testlogService.saveImgOrVideo(file, "jpg"), HttpStatus.OK);
+	@PostMapping(value = "/post/img")
+	public ResponseEntity<String> saveImg(@NotEmpty(message = "Img not empty") @RequestParam("fileName") MultipartFile file){
+		String result = testlogService.saveImgOrVideo(file);
+		HttpStatus status = HttpStatus.OK;
+		if (result.contains("Error")) {
+			status = HttpStatus.BAD_GATEWAY;
+		}
+		return new ResponseEntity<>(result, status);
 	}
-	@PostMapping(value = "/post/video",produces = "application/json")
-	public ResponseEntity<String> saveVideo(@RequestParam("fileName") MultipartFile file){
-		return new ResponseEntity<>(testlogService.saveImgOrVideo(file, "mp4"), HttpStatus.OK);
+	@PostMapping(value = "/post/video")
+	public ResponseEntity<String> saveVideo(@NotEmpty(message = "video not empty") @RequestParam("fileName") MultipartFile file){
+		String result = testlogService.saveImgOrVideo(file);
+		HttpStatus status = HttpStatus.OK;
+		if (result.contains("Error")) {
+			status = HttpStatus.BAD_GATEWAY;
+		}
+		return new ResponseEntity<>(result, status);
 	}
 }

@@ -13,5 +13,5 @@ public interface ITestcaseServices {
 	public List<TestCaseDTO> findAlls(Pageable page);
 	public boolean update(TestCaseDTO testcase);
 	public boolean saveAll(List<TestCaseDTO> testcase);
-	public TestCaseDTO findOneByTestSuiteUUID(String uuid);
+	public List<TestCaseDTO> findByTestSuiteUUID(String uuid);
 }
