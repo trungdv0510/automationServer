@@ -2,6 +2,7 @@ package autoServer.Entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -27,8 +28,8 @@ public class TestLogEntity extends abtractEntity{
 	private String imgPath;
 	@Column(columnDefinition = "TEXT",nullable = false)
 	private String videoPath;
-	@ManyToOne
-	@JoinColumn(name = "testcaseUUID",columnDefinition = "TEXT",nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "testcaseuuid",columnDefinition = "TEXT",nullable = false)
 	@ToString.Exclude
-	private TestCaseEntity testcaseUUID;
+	private TestCaseEntity testcaseuuid;
 }

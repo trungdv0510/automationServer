@@ -30,7 +30,7 @@ public class TestcaseService implements ITestcaseServices{
 		try {
 			if (testcase != null) {
 				TestCaseEntity testcaseNew = mapping.toEntity(testcase);
-				testcaseRepository.saveAndFlush(testcaseNew);
+				testcaseRepository.save(testcaseNew);
 				result = true;
 			}
 		} catch (Exception e) {

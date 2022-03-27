@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -34,12 +35,12 @@ public class TestCaseEntity extends abtractEntity{
 	private String endTime;
 	@Column(nullable = false)
 	private String timeDuration;
-	@ManyToOne
-	@JoinColumn(name = "suiteUUID",nullable = false,columnDefinition = "text")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "suiteuuid",nullable = false,columnDefinition = "text")
 	@ToString.Exclude
-	private TestSuiteEntity suiteUUID;
+	private TestSuiteEntity suiteuuid;
 	
-	@OneToMany(mappedBy = "testcaseUUID",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "testcaseuuid",cascade = CascadeType.ALL)
 	Collection<TestLogEntity> testLogs;
 
 }

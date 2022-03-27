@@ -34,6 +34,6 @@ public class TestSuiteEntity extends abtractEntity{
 	@Column
 	private String methodFail;
 	
-	@OneToMany(mappedBy = "suiteUUID", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "suiteuuid", cascade = CascadeType.ALL)
 	Collection<TestCaseEntity> testcases;
 }
