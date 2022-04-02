@@ -105,8 +105,12 @@ public class TestLogServices implements ITestLogServices {
 	public boolean saveAll(List<TestLogDTO> testLogDTOs) {
 		boolean result = false;
 		try {
-			long number = testLogDTOs.stream().map(i -> repository.saveAndFlush(mapping.toEntity(i))).count();
-			if ((int) number == testLogDTOs.size()) {
+			int count = 0;
+			for (TestLogDTO testLogDTO : testLogDTOs) {
+				repository.saveAndFlush(mapping.toEntity(testLogDTO));
+				count++;
+			}
+			if (count == testLogDTOs.size()) {
 				result = true;
 			}
 		} catch (Exception e) {

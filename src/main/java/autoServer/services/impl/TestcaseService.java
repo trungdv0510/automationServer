@@ -18,12 +18,13 @@ import autoServer.repository.testcaseRepository;
 import autoServer.services.ITestcaseServices;
 
 @Service
-public class TestcaseService implements ITestcaseServices{
+public class TestcaseService implements ITestcaseServices {
 
 	@Autowired
 	private TestCaseMapping mapping;
 	@Autowired
 	private testcaseRepository testcaseRepository;
+
 	@Override
 	public boolean save(TestCaseDTO testcase) {
 		boolean result = false;
@@ -36,7 +37,7 @@ public class TestcaseService implements ITestcaseServices{
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
-			
+
 		}
 		return result;
 	}
@@ -45,17 +46,17 @@ public class TestcaseService implements ITestcaseServices{
 	public boolean delete(long[] id) {
 		boolean result = false;
 		try {
-			if (id != null && id.length>0) {
+			if (id != null && id.length > 0) {
 				for (long l : id) {
 					testcaseRepository.deleteById(l);
 				}
 				result = true;
 			}
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println(e.getMessage());
-			
+
 		}
 		return result;
 	}
@@ -64,9 +65,11 @@ public class TestcaseService implements ITestcaseServices{
 	public List<TestCaseDTO> findAlls() {
 		List<TestCaseDTO> testcaseDTOs = new ArrayList<TestCaseDTO>();
 		try {
-			testcaseDTOs = testcaseRepository.findAll().stream()
-							.map(i -> mapping.toDTO(i))
-							.collect(Collectors.toList());
+			if (testcaseRepository.findAll() != null) {
+				testcaseDTOs = testcaseRepository.findAll().stream().map(i -> mapping.toDTO(i))
+						.collect(Collectors.toList());
+			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -82,7 +85,7 @@ public class TestcaseService implements ITestcaseServices{
 				testcaseDTOs = testcaseRepository.findAll(page).stream().map(i -> mapping.toDTO(i))
 						.collect(Collectors.toList());
 			}
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -102,7 +105,7 @@ public class TestcaseService implements ITestcaseServices{
 				testcaseRepository.saveAndFlush(testcase);
 				result = true;
 			}
-			
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -114,13 +117,17 @@ public class TestcaseService implements ITestcaseServices{
 	public boolean saveAll(List<TestCaseDTO> testcase) {
 		boolean result = false;
 		try {
-			if (testcase!=null) {
-				long number = testcase.stream().map(i -> testcaseRepository.saveAndFlush(mapping.toEntity(i))).count();
-				if ((int) number == testcase.size()) {
+			int count =0;
+			if (testcase != null) {
+				for (TestCaseDTO i : testcase) {
+					 testcaseRepository.save(mapping.toEntity(i));
+					 count++;
+				}
+				if (count == testcase.size()) {
 					result = true;
 				}
 			}
-		
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -130,16 +137,19 @@ public class TestcaseService implements ITestcaseServices{
 
 	@Override
 	public List<TestCaseDTO> findByTestSuiteUUID(String uuid) {
-		List<TestCaseDTO> testCase = null;
+		List<TestCaseDTO> testCaseList = null;
 		try {
 			if (!StringUtils.isBlank(uuid)) {
-				testCase = testcaseRepository.findByTestSuiteUUID(uuid);
+				if (testcaseRepository.findByTestSuiteUUID(uuid) != null) {
+					testCaseList = testcaseRepository.findByTestSuiteUUID(uuid).stream().map(i -> mapping.toDTO(i)).collect(Collectors.toList());
+				}
 			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.getMessage();
+			System.err.println( e.getMessage());
 		}
-		return testCase;
+		return testCaseList;
 	}
 
 }

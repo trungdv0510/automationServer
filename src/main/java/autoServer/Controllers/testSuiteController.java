@@ -1,6 +1,7 @@
 package autoServer.Controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -47,7 +48,7 @@ public class testSuiteController {
 	public ResponseEntity<Object> fineOne(@PathVariable(value = "uuid")  @NotBlank(message = "id is not null") String uuid) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		Object testsuiteDTO = "Not found";
-		if (!StringUtils.isBlank(uuid)) {
+		if (!StringUtils.isBlank(uuid.toString())) {
 			testsuiteDTO = testsuite.findOneByUUID(uuid);
 			if (testsuiteDTO != null) {
 				status = HttpStatus.OK;

@@ -13,12 +13,12 @@ import lombok.EqualsAndHashCode;
 @Table(name="user")
 public class UserEntity{
 	@Id
-	@Column(length = 64)
+	@Column(length = 64,nullable = false)
 	private String userName;
-	@Column
+	@Column(nullable = false)
 	private String password;
-	@Column
+	@Column(nullable = false)
 	private String email;
-	@Column
+	@Column(nullable = false)
 	private String permission;
 }

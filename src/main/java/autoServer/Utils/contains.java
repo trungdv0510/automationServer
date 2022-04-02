@@ -16,6 +16,7 @@ public class contains {
 	public static String contenTypeImg = "image/jpeg";
 	public static String contentTypeVideo = "video/mp4";
 	
+	// config cho phần send to server
 	public static HttpHeaders configHeader() {
 		 HttpHeaders headers = new HttpHeaders();
 		 headers.add(contentType, contentTypeConfig);

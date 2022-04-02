@@ -51,7 +51,7 @@ public class TestcaseController {
 		HttpStatus status = HttpStatus.OK;
 		if (!StringUtils.isBlank(uuid)) {
 			 testCase = testcaseService.findByTestSuiteUUID(uuid);
-			 if (testCase == null) {
+			 if (testCase.size() <= 0) {
 				status = HttpStatus.NOT_FOUND;
 				return new ResponseEntity<>("Not Found "+uuid, contains.configHeader(), status);
 			}

@@ -29,7 +29,7 @@ public class TestLogEntity extends abtractEntity{
 	@Column(columnDefinition = "TEXT",nullable = false)
 	private String videoPath;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "testcaseuuid",columnDefinition = "TEXT",nullable = false)
+	@JoinColumn(name = "testcaseuuid",nullable = false,columnDefinition = "TEXT", referencedColumnName = "uuid")
 	@ToString.Exclude
 	private TestCaseEntity testcaseuuid;
 }

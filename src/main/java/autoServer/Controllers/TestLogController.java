@@ -54,7 +54,7 @@ public class TestLogController {
 		HttpStatus status = HttpStatus.OK;
 		if (!StringUtils.isBlank(testcaseUUID)) {
 			testLogList = testlogService.findAllTestLogsWithTestcaseUUID(testcaseUUID);
-			if (testLogList == null) {
+			if (testLogList.size()<=0) {
 				status = HttpStatus.NOT_FOUND;
 				return new ResponseEntity<>("Not found test log has "+testcaseUUID,contains.configHeader(), status);
 			}

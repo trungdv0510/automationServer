@@ -1,11 +1,11 @@
 package autoServer.services.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import autoServer.repository.testSuiteRepository;
 import autoServer.services.ITestSuiteServices;
 @Service
 public class TestSuiteServices implements ITestSuiteServices{
-
+	private static final Logger LOGGER = LogManager.getLogger();
 	@Autowired
 	private TestSuiteMapping mapping;
 	@Autowired
@@ -31,7 +31,7 @@ public class TestSuiteServices implements ITestSuiteServices{
 				testSuiteRepository.save(entity);
 				result = true;
 			}
-			
+			LOGGER.info("Them thanh cong");
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -83,8 +83,7 @@ public class TestSuiteServices implements ITestSuiteServices{
 		boolean result = false;
 		try {
 			TestSuiteEntity testSuiteEntity = testSuiteRepository.findById(testsuite.getId()).get();
-			testSuiteEntity.setMethodPass(testsuite.getMethodPass());
-			testSuiteEntity.setMethodFail(testsuite.getMethodFail());
+			testSuiteEntity.setTestlogSum(testsuite.getTestlogSum());
 			testSuiteEntity.setResult(testsuite.getResult());
 			testSuiteRepository.saveAndFlush(testSuiteEntity);
 			result = true;

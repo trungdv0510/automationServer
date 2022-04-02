@@ -1,6 +1,7 @@
 package autoServer.Entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -22,14 +23,9 @@ import lombok.Data;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public abstract class abtractEntity {
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
-	private Long id;
-	@Column(nullable = false)
+	@Column(nullable = false,length = 100)
 	private String uuid;
-	@Column(nullable = false)
-	@CreatedBy
-	private String createBy;
 	@Column 
 	@LastModifiedBy
 	private String modifyBy;

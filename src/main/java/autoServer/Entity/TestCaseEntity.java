@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -36,7 +37,7 @@ public class TestCaseEntity extends abtractEntity{
 	@Column(nullable = false)
 	private String timeDuration;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "suiteuuid",nullable = false,columnDefinition = "text")
+	@JoinColumn(name = "suiteuuid", referencedColumnName = "uuid" )
 	@ToString.Exclude
 	private TestSuiteEntity suiteuuid;
 	

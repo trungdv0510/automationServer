@@ -18,8 +18,10 @@ public class TestSuiteDTO extends AbtractDTO<TestSuiteDTO>{
 	private String testcasePass;
 	@NotEmpty(message = "testcaseFail is empty")
 	private String testcaseFail;
-	@NotEmpty(message = "methodPass is empty")
-	private String methodPass;
-	@NotEmpty(message = "methodFail is empty")
-	private String methodFail;
+	@NotEmpty(message = "testLogSum  is empty")
+	private String testlogSum;
+	@NotEmpty(message = "IPName is empty")
+	private String ipName;
+	@NotEmpty(message = "HostName is empty")
+	private String hostName;
 }

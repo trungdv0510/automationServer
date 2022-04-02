@@ -17,22 +17,24 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Table(name="testsuite")
 public class TestSuiteEntity extends abtractEntity{
-	@Column
+	@Column(nullable = false)
 	private String suiteName;
-	@Column
+	@Column(nullable = false)
 	private String dateRun;
-	@Column
+	@Column(nullable = false)
 	private String result;
-	@Column
+	@Column(nullable = false)
 	private String runTime;
-	@Column
+	@Column(nullable = false)
 	private String testcasePass;
-	@Column
+	@Column(nullable = false)
 	private String testcaseFail;
-	@Column
-	private String methodPass;
-	@Column
-	private String methodFail;
+	@Column(nullable = false)
+	private String testlogSum;
+	@Column(nullable = false)
+	private String ipName;
+	@Column(nullable = false)
+	private String hostName;
 	
 	@OneToMany(mappedBy = "suiteuuid", cascade = CascadeType.ALL)
 	Collection<TestCaseEntity> testcases;

@@ -3,6 +3,7 @@ package autoServer.DTO;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -12,9 +13,7 @@ import lombok.Data;
 public abstract class AbtractDTO<T> {
 	private Long id;
 	@NotEmpty(message = "UUID is empty")
-	private String UUID;
-	@NotEmpty(message = "createBy is empty")
-	private String createBy;
+	private String uuid;
 	private String modifyBy;
 	private LocalDateTime  createDate =  LocalDateTime.now();
 	private LocalDateTime  modifyDate =  LocalDateTime.now();
