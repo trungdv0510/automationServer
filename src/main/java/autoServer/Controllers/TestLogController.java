@@ -30,7 +30,7 @@ public class TestLogController {
 	@Autowired
 	private ITestLogServices testlogService;
 
-	@PostMapping(value = "/add/testlog", produces = "application/json")
+	@PostMapping(value = "/add", produces = "application/json")
 	public ResponseEntity<String> insertTestcase(@Valid @RequestBody TestLogDTO testLog) {
 		String result = "FAIL";
 		if (testlogService.save(testLog)) {
@@ -39,7 +39,7 @@ public class TestLogController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/add/testlogs", produces = "application/json")
+	@PostMapping(value = "/adds", produces = "application/json")
 	public ResponseEntity<String> insertTestcases(@Valid @RequestBody List<TestLogDTO> testLogs) {
 		String result = "FAIL";
 		if (testlogService.saveAll(testLogs)) {
@@ -48,7 +48,7 @@ public class TestLogController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/get/testlogs/{testcaseUUID}", produces = "application/json")
+	@GetMapping(value = "/get/{testcaseUUID}", produces = "application/json")
 	public ResponseEntity<?> getListTestLogWithTestCaseUUID(@PathVariable(value = "testcaseUUID") @NotBlank(message = "ID is not null") String testcaseUUID) {
 		List<TestLogDTO> testLogList = new ArrayList<TestLogDTO>();
 		HttpStatus status = HttpStatus.OK;
