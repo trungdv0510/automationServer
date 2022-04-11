@@ -24,10 +24,6 @@ public class TestLogEntity extends abtractEntity{
 	private String detail;
 	@Column(nullable = false)
 	private String testLogTime;
-	@Column(columnDefinition = "TEXT", nullable = false)
-	private String imgPath;
-	@Column(columnDefinition = "TEXT",nullable = false)
-	private String videoPath;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "testcaseuuid",nullable = false,columnDefinition = "TEXT", referencedColumnName = "uuid")
 	@ToString.Exclude

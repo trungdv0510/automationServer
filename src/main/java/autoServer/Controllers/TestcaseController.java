@@ -33,7 +33,7 @@ public class TestcaseController {
 		if (testcaseService.save(testcase)) {
 			result = "OK";
 		}
-		return new ResponseEntity<>(result, contains.configHeader(), HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/adds", produces = "application/json")
@@ -42,7 +42,7 @@ public class TestcaseController {
 		if (testcaseService.saveAll(testcase)) {
 			result = "OK";
 		}
-		return new ResponseEntity<>(result, contains.configHeader(), HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/get/{id}", produces = "application/json")

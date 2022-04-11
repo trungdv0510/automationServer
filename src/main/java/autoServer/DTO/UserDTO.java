@@ -1,5 +1,9 @@
 package autoServer.DTO;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -16,5 +20,21 @@ public class UserDTO{
 	@NotEmpty(message = "email is empty")
 	private String email;
 	@NotEmpty(message = "permission is empty")
-	private String permission;
+	private String permissions = "";
+	@NotEmpty(message = "Role is empty")
+	private String roles = "";
+	private boolean active = true;
+	public List<String> getRoleList(){
+        if(this.roles.length() > 0){
+            return Arrays.asList(this.roles.split(","));
+        }
+        return new ArrayList<>();
+    }
+
+    public List<String> getPermissionList(){
+        if(this.permissions.length() > 0){
+            return Arrays.asList(this.permissions.split(","));
+        }
+        return new ArrayList<>();
+    }
 }

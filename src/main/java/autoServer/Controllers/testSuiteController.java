@@ -41,7 +41,7 @@ public class testSuiteController {
 			result = "OK";
 		}
 
-		return new ResponseEntity<>(result, contains.configHeader(), HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/find/{uuid}")

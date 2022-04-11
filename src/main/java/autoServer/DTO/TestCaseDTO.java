@@ -1,7 +1,5 @@
 package autoServer.DTO;
 
-import java.util.UUID;
-
 import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;

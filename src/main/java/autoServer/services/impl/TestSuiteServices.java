@@ -16,17 +16,19 @@ import autoServer.Entity.TestSuiteEntity;
 import autoServer.Utils.contains;
 import autoServer.repository.testSuiteRepository;
 import autoServer.services.ITestSuiteServices;
+
 @Service
-public class TestSuiteServices implements ITestSuiteServices{
+public class TestSuiteServices implements ITestSuiteServices {
 	private static final Logger LOGGER = LogManager.getLogger();
 	@Autowired
 	private TestSuiteMapping mapping;
 	@Autowired
 	private testSuiteRepository testSuiteRepository;
+
 	public boolean save(TestSuiteDTO testsuite) {
 		boolean result = false;
 		try {
-			if(testsuite != null) {
+			if (testsuite != null) {
 				TestSuiteEntity entity = mapping.toEntity(testsuite);
 				testSuiteRepository.save(entity);
 				result = true;
@@ -56,9 +58,8 @@ public class TestSuiteServices implements ITestSuiteServices{
 	public List<TestSuiteDTO> findAlls() {
 		List<TestSuiteDTO> testSuiteDTOs = new ArrayList<TestSuiteDTO>();
 		try {
-			testSuiteDTOs = testSuiteRepository.findAll().stream()
-							.map(i -> mapping.toDTO(i))
-							.collect(Collectors.toList());
+			testSuiteDTOs = testSuiteRepository.findAll().stream().map(i -> mapping.toDTO(i))
+					.collect(Collectors.toList());
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -69,9 +70,8 @@ public class TestSuiteServices implements ITestSuiteServices{
 	public List<TestSuiteDTO> findAlls(Pageable page) {
 		List<TestSuiteDTO> testSuiteDTOs = new ArrayList<TestSuiteDTO>();
 		try {
-			testSuiteDTOs = testSuiteRepository.findAll(page).getContent().stream()
-							.map(i -> mapping.toDTO(i))
-							.collect(Collectors.toList());
+			testSuiteDTOs = testSuiteRepository.findAll(page).getContent().stream().map(i -> mapping.toDTO(i))
+					.collect(Collectors.toList());
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -83,10 +83,12 @@ public class TestSuiteServices implements ITestSuiteServices{
 		boolean result = false;
 		try {
 			TestSuiteEntity testSuiteEntity = testSuiteRepository.findById(testsuite.getId()).get();
-			testSuiteEntity.setTestlogSum(testsuite.getTestlogSum());
-			testSuiteEntity.setResult(testsuite.getResult());
-			testSuiteRepository.saveAndFlush(testSuiteEntity);
-			result = true;
+			if (testSuiteEntity != null) {
+				testSuiteEntity.setTestlogSum(testsuite.getTestlogSum());
+				testSuiteEntity.setResult(testsuite.getResult());
+				testSuiteRepository.saveAndFlush(testSuiteEntity);
+				result = true;
+			}
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();

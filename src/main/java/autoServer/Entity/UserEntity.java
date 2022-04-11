@@ -14,11 +14,14 @@ import lombok.EqualsAndHashCode;
 public class UserEntity{
 	@Id
 	@Column(length = 64,nullable = false)
-	private String userName;
+	private String username;
 	@Column(nullable = false)
 	private String password;
 	@Column(nullable = false)
 	private String email;
 	@Column(nullable = false)
-	private String permission;
+	private String permission= "";
+	@Column(nullable = false)
+	private String role= "";
+	private boolean active = true;
 }

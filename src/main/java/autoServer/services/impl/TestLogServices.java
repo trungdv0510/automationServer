@@ -89,8 +89,7 @@ public class TestLogServices implements ITestLogServices {
 		boolean result = false;
 		try {
 			TestLogEntity testlogEntity = repository.findById(testlog.getId()).get();
-			testlogEntity.setImgPath(testlog.getImgPath());
-			testlogEntity.setVideoPath(testlog.getVideoPath());
+			testlogEntity.setStepName(testlog.getStepName());
 			testlogEntity.setResult(testlog.getResult());
 			repository.saveAndFlush(testlogEntity);
 			result = true;
