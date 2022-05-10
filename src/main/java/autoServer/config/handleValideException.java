@@ -1,5 +1,6 @@
 package autoServer.config;
 
+import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 import autoServer.services.impl.TestSuiteServices;
 
@@ -60,6 +63,14 @@ public class handleValideException {
 	public ResponseEntity<String> handleColumnException(SQLIntegrityConstraintViolationException e){
 		 LOGGER.error(e.getMessage());
 		 return new ResponseEntity<>("Server error pls wait",HttpStatus.INTERNAL_SERVER_ERROR);
-		
 	}
+	
+	//Handle null value
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(NullPointerException.class)
+	public ResponseEntity<String> handleNullPointException(NullPointerException e){
+		 LOGGER.error(e.getMessage());
+		 return new ResponseEntity<>("",HttpStatus.BAD_REQUEST);
+	}
+	
 }

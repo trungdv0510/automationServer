@@ -22,12 +22,12 @@ import autoServer.Utils.contains;
 import autoServer.services.impl.TestcaseService;
 
 @RestController
-@RequestMapping(value = "/api/testcase")
+@RequestMapping(value = "/api")
 public class TestcaseController {
 	@Autowired
 	private TestcaseService testcaseService;
 
-	@PostMapping(value = "/add", produces = "application/json")
+	@PostMapping(value = "/testcase", produces = "application/json")
 	public ResponseEntity<String> insertTestcase(@Valid @RequestBody TestCaseDTO testcase) {
 		String result = "FAIL";
 		if (testcaseService.save(testcase)) {
@@ -36,7 +36,7 @@ public class TestcaseController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/adds", produces = "application/json")
+	@PostMapping(value = "/testcases", produces = "application/json")
 	public ResponseEntity<String> insertTestcases(@Valid @RequestBody List<TestCaseDTO> testcase) {
 		String result = "FAIL";
 		if (testcaseService.saveAll(testcase)) {
@@ -45,7 +45,7 @@ public class TestcaseController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/get/{id}", produces = "application/json")
+	@GetMapping(value = "/user/testcases/{id}", produces = "application/json")
 	public ResponseEntity<?> getTestcase(@PathVariable(value = "id") @NotEmpty(message = "id is not null") String uuid) {
 		List<TestCaseDTO> testCase = new ArrayList<TestCaseDTO>();
 		HttpStatus status = HttpStatus.OK;

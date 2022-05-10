@@ -10,11 +10,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import autoServer.Converter.TestCaseMapping;
+import autoServer.Converter.TestLogMapping;
 import autoServer.Converter.TestSuiteMapping;
+import autoServer.DTO.TestCaseDTO;
+import autoServer.DTO.TestLogDTO;
 import autoServer.DTO.TestSuiteDTO;
+import autoServer.DTO.testSuiteDetails;
+import autoServer.Entity.TestCaseEntity;
+import autoServer.Entity.TestLogEntity;
 import autoServer.Entity.TestSuiteEntity;
 import autoServer.Utils.contains;
+import autoServer.repository.testLogRepository;
 import autoServer.repository.testSuiteRepository;
+import autoServer.repository.testcaseRepository;
 import autoServer.services.ITestSuiteServices;
 
 @Service
@@ -23,8 +32,15 @@ public class TestSuiteServices implements ITestSuiteServices {
 	@Autowired
 	private TestSuiteMapping mapping;
 	@Autowired
+	private TestCaseMapping mappingTestcase;
+	@Autowired
+	private TestLogMapping mappingTestLog;
+	@Autowired
 	private testSuiteRepository testSuiteRepository;
-
+	@Autowired
+	private testcaseRepository testcaseRepository;
+	@Autowired
+	private testLogRepository testLogRepository;
 	public boolean save(TestSuiteDTO testsuite) {
 		boolean result = false;
 		try {
@@ -110,18 +126,39 @@ public class TestSuiteServices implements ITestSuiteServices {
 		}
 		return listPassFail;
 	}
-
+	/* 	tìm kiếm testsuite có uuid 
+		tìm kiếm list<Testcase> theo suiteUUID
+	 	với mỗi testcase uuid tìm kiếm testlog
+	 */
 	@Override
-	public TestSuiteDTO findOneByUUID(String uuid) {
-		TestSuiteDTO testSuiteDTO = null;
+	public testSuiteDetails findOneByUUID(String uuid) {
+		testSuiteDetails testSuiteDetails = new testSuiteDetails();
 		try {
 			TestSuiteEntity testSuiteEntity = testSuiteRepository.findOneByUUID(uuid);
-			testSuiteDTO = mapping.toDTO(testSuiteEntity);
+			TestSuiteDTO testestSuiteDTO = mapping.toDTO(testSuiteEntity);
+			List<List<TestLogDTO>> testlogList = new ArrayList<List<TestLogDTO>>(); 
+			if (testestSuiteDTO!=null) {
+				List<TestCaseEntity> testCaseEntities = testcaseRepository.findByTestSuiteUUID(uuid);
+				List<TestCaseDTO> testCaseDTOs =  testCaseEntities
+													.stream()
+													.map(i->mappingTestcase.toDTO(i))
+													.collect(Collectors.toList());
+				for (TestCaseDTO testCaseDTO : testCaseDTOs) {
+					List<TestLogDTO> testLogEntities = testLogRepository.findAllTestWithTestCaseUUID(testCaseDTO.getUuid())
+														.stream()
+														.map(i->mappingTestLog.toDTO(i))
+														.collect(Collectors.toList());
+					testlogList.add(testLogEntities);
+				}
+				testSuiteDetails.setTestSuiteDTO(testestSuiteDTO);
+				testSuiteDetails.setTestCaseDTOs(testCaseDTOs);
+				testSuiteDetails.setTestLogDTOs(testlogList);
+			}
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return testSuiteDTO;
+		return testSuiteDetails;
 	}
 
 }

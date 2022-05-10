@@ -22,18 +22,18 @@ import autoServer.DTO.TestSuiteDTO;
 import autoServer.Utils.contains;
 import autoServer.services.impl.TestSuiteServices;
 
-@RequestMapping(value = "/api/testsuite")
+@RequestMapping(value = "/api")
 @RestController
 public class testSuiteController {
 	@Autowired
 	private TestSuiteServices testsuite;
 
-	@GetMapping(value = "/all", produces = "application/json")
+	@GetMapping(value = "/user/testsuites", produces = "application/json")
 	public ResponseEntity<List<TestSuiteDTO>> findAll() {
 		return new ResponseEntity<>(testsuite.findAlls(), HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/add", produces = "application/json")
+	@PostMapping(value = "/testsuite", produces = "application/json")
 	public ResponseEntity<String> insertSuite(@Valid @RequestBody TestSuiteDTO testSuiteDTO) {
 		String result = "FAIL";
 
@@ -44,7 +44,7 @@ public class testSuiteController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/find/{uuid}")
+	@GetMapping(value = "/user/testsuites/{uuid}")
 	public ResponseEntity<Object> fineOne(@PathVariable(value = "uuid")  @NotBlank(message = "id is not null") String uuid) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		Object testsuiteDTO = "Not found";

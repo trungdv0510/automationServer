@@ -26,7 +26,7 @@ public class UserMapping{
 	public UserEntity toEntity(UserDTO dto) {
 		UserEntity entity = null;
 		try {
-			dto = mapper.map(entity, UserDTO.class);
+			entity = mapper.map(dto, UserEntity.class);
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.err.println(e.getMessage());

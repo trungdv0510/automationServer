@@ -15,7 +15,9 @@ public class contains {
 	public static String folderVideo = "video/";
 	public static String contenTypeImg = "image/jpeg";
 	public static String contentTypeVideo = "video/mp4";
-	
+	public static String roleAdmin = "ADMIN";
+	public static String roleUser = "USER";
+	public static String roleManager = "MANAGER";
 	// config cho phần send to server
 	public static HttpHeaders configHeader() {
 		 HttpHeaders headers = new HttpHeaders();

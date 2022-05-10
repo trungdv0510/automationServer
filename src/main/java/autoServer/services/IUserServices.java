@@ -8,7 +8,7 @@ import autoServer.DTO.TestSuiteDTO;
 import autoServer.DTO.UserDTO;
 
 public interface IUserServices {
-	public boolean save(UserDTO user);
+	public String save(UserDTO user);
 	public boolean delete(long[] id);
 	public List<UserDTO> findAlls();
 	public List<UserDTO> findAlls(Pageable page);

@@ -25,12 +25,12 @@ import autoServer.Utils.contains;
 import autoServer.services.ITestLogServices;
 
 @RestController
-@RequestMapping(value = "/api/testlog")
+@RequestMapping(value = "/api")
 public class TestLogController {
 	@Autowired
 	private ITestLogServices testlogService;
 
-	@PostMapping(value = "/add", produces = "application/json")
+	@PostMapping(value = "/testlog", produces = "application/json")
 	public ResponseEntity<String> insertTestcase(@Valid @RequestBody TestLogDTO testLog) {
 		String result = "FAIL";
 		if (testlogService.save(testLog)) {
@@ -39,7 +39,7 @@ public class TestLogController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/adds", produces = "application/json")
+	@PostMapping(value = "/testlogs", produces = "application/json")
 	public ResponseEntity<String> insertTestcases(@Valid @RequestBody List<TestLogDTO> testLogs) {
 		String result = "FAIL";
 		if (testlogService.saveAll(testLogs)) {
@@ -48,7 +48,7 @@ public class TestLogController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/get/{testcaseUUID}", produces = "application/json")
+	@GetMapping(value = "/user/testlogs/{testcaseUUID}", produces = "application/json")
 	public ResponseEntity<?> getListTestLogWithTestCaseUUID(@PathVariable(value = "testcaseUUID") @NotBlank(message = "ID is not null") String testcaseUUID) {
 		List<TestLogDTO> testLogList = new ArrayList<TestLogDTO>();
 		HttpStatus status = HttpStatus.OK;
@@ -65,7 +65,7 @@ public class TestLogController {
 		return new ResponseEntity<>(testLogList,contains.configHeader(), status);
 	}
 	
-	@GetMapping(value = "/get/testlog/{id}",produces = "application/json")
+	@GetMapping(value = "/user/testlogs/{id}",produces = "application/json")
 	public ResponseEntity<Object> getTestLogWithId(@PathVariable(value = "id") @NotBlank Long id) {
 		Object testLog = "Not found";
 		HttpStatus status = HttpStatus.NOT_FOUND;
@@ -80,7 +80,7 @@ public class TestLogController {
 		}
 		return new ResponseEntity<>(testLog,contains.configHeader(), status);
 	}
-	@PostMapping(value = "/post/img")
+	@PostMapping(value = "/img")
 	public ResponseEntity<String> saveImg(@NotEmpty(message = "Img not empty") @RequestParam("fileName") MultipartFile file){
 		String result = testlogService.saveImgOrVideo(file);
 		HttpStatus status = HttpStatus.OK;
@@ -89,7 +89,7 @@ public class TestLogController {
 		}
 		return new ResponseEntity<>(result, status);
 	}
-	@PostMapping(value = "/post/video")
+	@PostMapping(value = "/video")
 	public ResponseEntity<String> saveVideo(@NotEmpty(message = "video not empty") @RequestParam("fileName") MultipartFile file){
 		String result = testlogService.saveImgOrVideo(file);
 		HttpStatus status = HttpStatus.OK;

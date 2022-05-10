@@ -14,16 +14,12 @@ import autoServer.repository.userRepository;
 
 @Service
 public class UserPrincipalDetailsService implements UserDetailsService {
-	private UserPrincipal userPrincipal;
 	@Autowired
 	private userRepository repository;
-	@Autowired
-	private UserMapping mapping;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserEntity user = this.repository.findByUsername(username);
-		UserDTO userDTO = mapping.toDTO(user) ;
-		UserPrincipal userPrincipal = new UserPrincipal(userDTO);
+		UserPrincipal userPrincipal = new UserPrincipal(user);
 		return userPrincipal;
 	}
 

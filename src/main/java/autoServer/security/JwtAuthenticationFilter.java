@@ -1,9 +1,15 @@
 package autoServer.security;
 
-import com.auth0.jwt.JWT;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
-import autoServer.DTO.UserDTO;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -11,14 +17,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
+import com.auth0.jwt.JWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import autoServer.DTO.UserDTO;
+import autoServer.DTO.UserPrincipal;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	 private AuthenticationManager authenticationManager;
 
@@ -31,39 +34,53 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	     */
 	    @Override
 	    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+	    	 Authentication auth = null;
+	    	try {
+	    		 // Grab credentials and map them to login viewmodel
+		        UserDTO credentials = null;
+		        try {
+		            credentials = new ObjectMapper().readValue(request.getInputStream(), UserDTO.class);
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
 
-	        // Grab credentials and map them to login viewmodel
-	        UserDTO credentials = null;
-	        try {
-	            credentials = new ObjectMapper().readValue(request.getInputStream(), UserDTO.class);
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
+		        // Create login token
+		        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+		                credentials.getUsername(),
+		                credentials.getPassword(),
+		                new ArrayList<>());
 
-	        // Create login token
-	        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-	                credentials.getUserName(),
-	                credentials.getPassword(),
-	                new ArrayList<>());
-
-	        // Authenticate user
-	        Authentication auth = authenticationManager.authenticate(authenticationToken);
-
-	        return auth;
+		        // Authenticate user
+		        auth = authenticationManager.authenticate(authenticationToken);
+			} catch (NullPointerException  e) {
+				// TODO: handle exception
+				System.err.println(e.getMessage());
+				logger.error(e.getMessage());
+				try {
+					 ObjectMapper mapper = new ObjectMapper();
+		        	 response.setStatus(401);
+		 				mapper.writeValue(response.getOutputStream(), "Null value");
+				} catch (Exception e2) {
+					// TODO: handle exception
+					logger.error(e);
+				}
+			}
+	       return auth;
 	    }
 
 	    @Override
 	    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
 	        // Grab principal
-	    	UserDTO principal = (UserDTO) authResult.getPrincipal();
+	    	UserPrincipal principal = (UserPrincipal) authResult.getPrincipal();
 
 	        // Create JWT Token
 	        String token = JWT.create()
-	                .withSubject(principal.getUserName())
+	                .withSubject(principal.getUsername())
 	                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
 	                .sign(HMAC512(JwtProperties.SECRET.getBytes()));
 
 	        // Add token in response
-	        response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX +  token);
+	        //response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX +  token);
+	        ObjectMapper mapper = new ObjectMapper();			mapper.writeValue(response.getOutputStream(), token);
 	    }
 }

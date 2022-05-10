@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Pageable;
 
 import autoServer.DTO.TestSuiteDTO;
+import autoServer.DTO.testSuiteDetails;
 
 public interface ITestSuiteServices {
 	public boolean save(TestSuiteDTO testsuite);
@@ -14,5 +15,5 @@ public interface ITestSuiteServices {
 	public List<TestSuiteDTO> findAlls(Pageable page);
 	public boolean update(TestSuiteDTO testsuite);
 	public List<Integer> getCountPassFail();
-	public TestSuiteDTO findOneByUUID(String uuid);
+	public testSuiteDetails findOneByUUID(String uuid);
 }

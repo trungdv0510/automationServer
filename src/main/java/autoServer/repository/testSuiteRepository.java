@@ -18,4 +18,5 @@ public interface testSuiteRepository extends JpaRepository<TestSuiteEntity, Long
 	
 	@Query(value = " SELECT * FROM testsuite where uuid = :uuid",nativeQuery = true)
 	public TestSuiteEntity findOneByUUID(@Param("uuid") String uuid);
+	
 }

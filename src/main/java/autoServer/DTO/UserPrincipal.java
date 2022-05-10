@@ -8,25 +8,27 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import autoServer.Entity.UserEntity;
+
 public class UserPrincipal implements UserDetails{
+
+	private UserEntity user;
 	
-	private UserDTO userDTO;
-	
-	public UserPrincipal(UserDTO user) {
-		this.userDTO = user;
+	public UserPrincipal(UserEntity user) {
+		this.user = user;
 	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 
         // Extract list of permissions (name)
-        this.userDTO.getPermissionList().forEach(p -> {
+        this.user.getPermissionList().forEach(p -> {
             GrantedAuthority authority = new SimpleGrantedAuthority(p);
             authorities.add(authority);
         });
 
         // Extract list of roles (ROLE_name)
-        this.userDTO.getRoleList().forEach(r -> {
+        this.user.getRoleList().forEach(r -> {
             GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
             authorities.add(authority);
         });
@@ -37,13 +39,13 @@ public class UserPrincipal implements UserDetails{
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
-		return this.userDTO.getPassword();
+		return this.user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.userDTO.getUserName();
+		return this.user.getUsername();
 	}
 
 	@Override
@@ -55,7 +57,7 @@ public class UserPrincipal implements UserDetails{
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -67,7 +69,7 @@ public class UserPrincipal implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
-		return this.userDTO.isActive();
+		return this.user.isActive();
 	}
 
 }
