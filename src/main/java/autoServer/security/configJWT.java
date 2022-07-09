@@ -2,6 +2,8 @@ package autoServer.security;
 
 import java.util.Arrays;
 
+import javax.servlet.ServletException;
+
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -13,9 +15,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.HeaderWriterLogoutHandler;
+import org.springframework.security.web.header.HeaderWriter;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.web.header.writers.ClearSiteDataHeaderWriter.Directive;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import autoServer.Utils.contains;
 import autoServer.repository.userRepository;
@@ -26,7 +33,6 @@ import autoServer.services.impl.UserPrincipalDetailsService;
 public class configJWT extends WebSecurityConfigurerAdapter {
 	private UserPrincipalDetailsService userService;
 	 private userRepository userRepository;
-
 	public configJWT(UserPrincipalDetailsService userPrincipalDetailsService, userRepository use) {
 		this.userService = userPrincipalDetailsService;
 		this.userRepository = use;
@@ -50,8 +56,7 @@ public class configJWT extends WebSecurityConfigurerAdapter {
                .antMatchers(HttpMethod.POST, "/login").permitAll()
                .antMatchers("/api/management/*").hasRole(contains.roleManager)
                .antMatchers("/api/admin/*").hasRole(contains.roleAdmin)
-               .antMatchers("/api/user/*").hasRole(contains.roleUser)
-               .and().logout().logoutUrl("/logout");
+               .antMatchers("/api/user/*").hasRole(contains.roleUser);
     }
 	@Bean
 	DaoAuthenticationProvider authenticationProvider() {

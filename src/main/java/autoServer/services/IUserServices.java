@@ -14,4 +14,5 @@ public interface IUserServices {
 	public List<UserDTO> findAlls(Pageable page);
 	public boolean update(UserDTO user);
 	public boolean login(UserDTO user);
+	public boolean logout(String tokens);
 }

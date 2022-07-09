@@ -1,6 +1,9 @@
 package autoServer.services.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +19,7 @@ import autoServer.Converter.TestSuiteMapping;
 import autoServer.DTO.TestCaseDTO;
 import autoServer.DTO.TestLogDTO;
 import autoServer.DTO.TestSuiteDTO;
+import autoServer.DTO.requestData;
 import autoServer.DTO.testSuiteDetails;
 import autoServer.Entity.TestCaseEntity;
 import autoServer.Entity.TestLogEntity;
@@ -159,6 +163,22 @@ public class TestSuiteServices implements ITestSuiteServices {
 			e.printStackTrace();
 		}
 		return testSuiteDetails;
+	}
+
+	@Override
+	public List<TestSuiteDTO> getTestSuiteDTOByDate(String startDate , String endDate) {
+		List<TestSuiteDTO> listTestSuiteDTOs = new LinkedList<TestSuiteDTO>();
+		try {
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			Date dateStart = format.parse(startDate);
+			Date dateEnd = format.parse(endDate);
+			List<TestSuiteEntity> listEntities = testSuiteRepository.getTestSuiteByDateStartAndDateEnd(dateStart,dateEnd);
+			listTestSuiteDTOs = listEntities.stream().map(i->mapping.toDTO(i)).collect(Collectors.toList());
+		} catch (Exception e) {
+			// TODO: handle exception
+			LOGGER.error(e.getMessage());
+		}
+		return listTestSuiteDTOs;
 	}
 
 }

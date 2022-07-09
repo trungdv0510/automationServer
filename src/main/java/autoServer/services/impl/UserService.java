@@ -1,9 +1,13 @@
 package autoServer.services.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.Cookie;
+
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +22,7 @@ import autoServer.DTO.UserDTO;
 import autoServer.Entity.TestSuiteEntity;
 import autoServer.Entity.UserEntity;
 import autoServer.repository.userRepository;
+import autoServer.security.JwtAuthenticationFilter;
 import autoServer.services.IUserServices;
 @Service
 public class UserService implements IUserServices{
@@ -119,6 +124,27 @@ public class UserService implements IUserServices{
 	public boolean login(UserDTO user) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public boolean logout(String tokens) {
+		boolean result = false;
+		try {
+			int totalCookie = JwtAuthenticationFilter.listCookies.size();
+			for (int i = 0; i < totalCookie; i++) {
+				Cookie item = JwtAuthenticationFilter.listCookies.get(i);
+				if (item.getName().contains(tokens)) {
+					if(JwtAuthenticationFilter.listCookies.remove(item)) {
+						result = true;
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.getMessage();
+		}
+		return result;
 	}	
 
 }

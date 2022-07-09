@@ -1,13 +1,9 @@
 package autoServer.init;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import autoServer.DTO.UserDTO;
 import autoServer.Entity.UserEntity;
 import autoServer.repository.userRepository;
 @Service
@@ -25,7 +21,6 @@ public class userInit implements CommandLineRunner {
 	    public void run(String... args) {
 	        // Delete all
 	        this.userRepository.deleteAll();
-
 	        // Crete users
 	        UserEntity superUser = new UserEntity();
 	        superUser.setUsername("admin");

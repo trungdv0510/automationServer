@@ -1,5 +1,6 @@
 package autoServer.Controllers;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import autoServer.DTO.TestSuiteDTO;
+import autoServer.DTO.requestData;
 import autoServer.Utils.contains;
 import autoServer.services.impl.TestSuiteServices;
 
@@ -57,5 +60,15 @@ public class testSuiteController {
 			status = HttpStatus.BAD_REQUEST;
 		}
 		return new ResponseEntity<>(testsuiteDTO, contains.configHeader(), status);
+	}
+	
+	@GetMapping(value = "/user/testsuites/findbydate")
+	public ResponseEntity<Object> findTestSuiteByDate(@Valid @RequestParam(name = "startdate") String startDate, @RequestParam(name = "enddate") String enddate){
+		List<TestSuiteDTO> testsuiteDTO = new LinkedList<TestSuiteDTO>();
+		if (!StringUtils.isBlank(enddate) && !StringUtils.isBlank(startDate)) {
+			testsuiteDTO = testsuite.getTestSuiteDTOByDate(startDate,enddate);
+		}
+		return new ResponseEntity<>(testsuiteDTO, contains.configHeader(), HttpStatus.OK);
+		
 	}
 }

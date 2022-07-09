@@ -1,15 +1,18 @@
 package autoServer.security;
-
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,11 +21,16 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.auth0.jwt.JWT;
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import autoServer.DTO.UserDTO;
 import autoServer.DTO.UserPrincipal;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+	public static List<Cookie> listCookies = new LinkedList<Cookie>();
 	 private AuthenticationManager authenticationManager;
 
 	    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
@@ -78,9 +86,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	                .withSubject(principal.getUsername())
 	                .withExpiresAt(new Date(System.currentTimeMillis() + JwtProperties.EXPIRATION_TIME))
 	                .sign(HMAC512(JwtProperties.SECRET.getBytes()));
-
+	       Cookie cookie = new Cookie(token,token);
+	       listCookies.add(cookie);
 	        // Add token in response
 	        //response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX +  token);
-	        ObjectMapper mapper = new ObjectMapper();			mapper.writeValue(response.getOutputStream(), token);
+	        ObjectMapper mapper = new ObjectMapper();
+	        response.setContentType("application/json");
+	        response.setCharacterEncoding("UTF-8");			mapper.writeValue(response.getOutputStream(), token);
 	    }
 }
