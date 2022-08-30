@@ -24,4 +24,6 @@ public class TestSuiteDTO extends AbtractDTO<TestSuiteDTO>{
 	private String ipName;
 	@NotEmpty(message = "HostName is empty")
 	private String hostName;
+	private Integer sprint;
+	private boolean isRegresstion;
 }

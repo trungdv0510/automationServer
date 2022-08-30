@@ -1,21 +1,30 @@
 package autoServer.Entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
+import autoServer.Utils.contains;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
-@Setter
-@Getter
+@Data
+@EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
 @Table(name = "regresstion")
-public class RegresstionEntity extends abtractEntity{
+public class RegresstionEntity extends AbtractEntity {
 	@Column(nullable = false)
 	private String testcaseName;
 	@Column(nullable = false)
-	private long dateRun = new Date().getTime();
+	private LocalDateTime dateRun = LocalDateTime.now();
 	@Column(nullable = false)
 	private String evidenceLink;
 	@Column(nullable = false)
@@ -26,4 +35,6 @@ public class RegresstionEntity extends abtractEntity{
 	private String author;
 	@Column
 	private String ErrorDecription;
+	@Column
+	private String sprint;
 }

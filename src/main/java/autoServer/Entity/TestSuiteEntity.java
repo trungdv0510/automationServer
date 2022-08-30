@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Table(name="testsuite")
-public class TestSuiteEntity extends abtractEntity{
+public class TestSuiteEntity extends AbtractEntity {
 	@Column(nullable = false)
 	private String suiteName;
 	@Column(nullable = false)
@@ -35,7 +34,8 @@ public class TestSuiteEntity extends abtractEntity{
 	private String ipName;
 	@Column(nullable = false)
 	private String hostName;
-	
+	@Column
+	private Integer sprint;
 	@OneToMany(mappedBy = "suiteuuid", cascade = CascadeType.ALL)
 	Collection<TestCaseEntity> testcases;
 }

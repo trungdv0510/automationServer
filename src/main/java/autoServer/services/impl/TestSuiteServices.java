@@ -7,6 +7,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import autoServer.Entity.RegresstionEntity;
+import autoServer.repository.RegresstionRepository;
+import autoServer.services.IRegresstionServices;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +22,13 @@ import autoServer.Converter.TestSuiteMapping;
 import autoServer.DTO.TestCaseDTO;
 import autoServer.DTO.TestLogDTO;
 import autoServer.DTO.TestSuiteDTO;
-import autoServer.DTO.requestData;
 import autoServer.DTO.testSuiteDetails;
 import autoServer.Entity.TestCaseEntity;
-import autoServer.Entity.TestLogEntity;
 import autoServer.Entity.TestSuiteEntity;
 import autoServer.Utils.contains;
-import autoServer.repository.testLogRepository;
-import autoServer.repository.testSuiteRepository;
-import autoServer.repository.testcaseRepository;
+import autoServer.repository.TestLogRepository;
+import autoServer.repository.TestSuiteRepository;
+import autoServer.repository.TestcaseRepository;
 import autoServer.services.ITestSuiteServices;
 
 @Service
@@ -40,11 +41,13 @@ public class TestSuiteServices implements ITestSuiteServices {
 	@Autowired
 	private TestLogMapping mappingTestLog;
 	@Autowired
-	private testSuiteRepository testSuiteRepository;
+	private TestSuiteRepository testSuiteRepository;
 	@Autowired
-	private testcaseRepository testcaseRepository;
+	private TestcaseRepository testcaseRepository;
 	@Autowired
-	private testLogRepository testLogRepository;
+	private TestLogRepository testLogRepository;
+	@Autowired
+	private RegresstionRepository regresstionRepository;
 	public boolean save(TestSuiteDTO testsuite) {
 		boolean result = false;
 		try {

@@ -1,5 +1,6 @@
 package autoServer.Converter;
 
+import autoServer.repository.TestcaseRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -7,14 +8,13 @@ import org.springframework.stereotype.Component;
 import autoServer.DTO.TestLogDTO;
 import autoServer.Entity.TestCaseEntity;
 import autoServer.Entity.TestLogEntity;
-import autoServer.repository.testcaseRepository;
 
 @Component
 public class TestLogMapping{
 	@Autowired
 	private ModelMapper modelMapper;
 	@Autowired
-	private testcaseRepository testcase;
+	private TestcaseRepository testcase;
 	public TestLogDTO toDTO(TestLogEntity entity) {
 		TestLogDTO testLog = null;
 		try {

@@ -3,7 +3,6 @@ package autoServer.security;
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -11,7 +10,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.query.criteria.internal.expression.function.AggregationFunction.COUNT;
+import autoServer.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,13 +22,12 @@ import com.auth0.jwt.JWT;
 
 import autoServer.DTO.UserPrincipal;
 import autoServer.Entity.UserEntity;
-import autoServer.repository.userRepository;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	@Autowired
-	private userRepository userRepository;
+	private UserRepository userRepository;
 
-	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, userRepository user) {
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository user) {
 		super(authenticationManager);
 		this.userRepository = user;
 	}

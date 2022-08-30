@@ -18,6 +18,10 @@ public class contains {
 	public static String roleAdmin = "ADMIN";
 	public static String roleUser = "USER";
 	public static String roleManager = "MANAGER";
+
+
+
+
 	// config cho phần send to server
 	public static HttpHeaders configHeader() {
 		 HttpHeaders headers = new HttpHeaders();
@@ -28,5 +32,12 @@ public class contains {
 		SimpleDateFormat format = new SimpleDateFormat("ddMMyyy-HHmmss");
 		Date date = new Date();
 		return String.valueOf(format.format(date));
+	}
+
+
+	public static class ResultSetMapping{
+		private ResultSetMapping() {
+		}
+		public  static final String REGRESSTION_MAPPTING = "REGRESSTION_MAPPTING";
 	}
 }

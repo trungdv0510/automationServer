@@ -1,27 +1,20 @@
 package autoServer.services.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import autoServer.Converter.UserMapping;
-import autoServer.DTO.TestCaseDTO;
 import autoServer.DTO.UserDTO;
-import autoServer.Entity.TestSuiteEntity;
 import autoServer.Entity.UserEntity;
-import autoServer.repository.userRepository;
+import autoServer.repository.UserRepository;
 import autoServer.security.JwtAuthenticationFilter;
 import autoServer.services.IUserServices;
 @Service
@@ -30,7 +23,7 @@ public class UserService implements IUserServices{
 	@Autowired
 	private UserMapping mapping;
 	@Autowired
-	private userRepository repository;
+	private UserRepository repository;
 	@Autowired 
 	private PasswordEncoder passwordEncoder;
 	@Override

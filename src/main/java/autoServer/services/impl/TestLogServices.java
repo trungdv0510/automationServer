@@ -1,6 +1,5 @@
 package autoServer.services.impl;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import autoServer.repository.TestLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import autoServer.Converter.TestLogMapping;
 import autoServer.DTO.TestLogDTO;
-import autoServer.Entity.TestCaseEntity;
 import autoServer.Entity.TestLogEntity;
 import autoServer.Utils.contains;
 import autoServer.Utils.fileUtils;
-import autoServer.repository.testLogRepository;
 import autoServer.services.ITestLogServices;
 
 @Service
@@ -28,7 +26,7 @@ public class TestLogServices implements ITestLogServices {
 	@Autowired
 	private TestLogMapping mapping;
 	@Autowired
-	private testLogRepository repository;
+	private TestLogRepository repository;
 
 	@Override
 	public boolean save(TestLogDTO testlog) {

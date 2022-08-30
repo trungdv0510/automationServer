@@ -14,7 +14,7 @@ import autoServer.Converter.TestCaseMapping;
 import autoServer.DTO.TestCaseDTO;
 import autoServer.Entity.TestCaseEntity;
 import autoServer.Entity.TestSuiteEntity;
-import autoServer.repository.testcaseRepository;
+import autoServer.repository.TestcaseRepository;
 import autoServer.services.ITestcaseServices;
 
 @Service
@@ -23,7 +23,7 @@ public class TestcaseService implements ITestcaseServices {
 	@Autowired
 	private TestCaseMapping mapping;
 	@Autowired
-	private testcaseRepository testcaseRepository;
+	private TestcaseRepository testcaseRepository;
 
 	@Override
 	public boolean save(TestCaseDTO testcase) {

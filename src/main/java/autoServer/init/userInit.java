@@ -1,18 +1,19 @@
 package autoServer.init;
 
+import autoServer.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import autoServer.Entity.UserEntity;
-import autoServer.repository.userRepository;
+
 @Service
 public class userInit implements CommandLineRunner {
 
-	 private userRepository userRepository;
+	 private UserRepository userRepository;
 	    private PasswordEncoder passwordEncoder;
 
-	    public userInit(userRepository userRepository, PasswordEncoder passwordEncoder) {
+	    public userInit(UserRepository userRepository, PasswordEncoder passwordEncoder) {
 	        this.userRepository = userRepository;
 	        this.passwordEncoder = passwordEncoder;
 	    }

@@ -15,7 +15,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="testlog")
-public class TestLogEntity extends abtractEntity{
+public class TestLogEntity extends AbtractEntity {
 	@Column(nullable = false)
 	private String stepName;
 	@Column(nullable = false)
