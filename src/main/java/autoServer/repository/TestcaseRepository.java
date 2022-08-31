@@ -10,8 +10,8 @@ import autoServer.Entity.TestCaseEntity;
 
 public interface TestcaseRepository extends JpaRepository<TestCaseEntity, Long>{
 	@Query(value = "select * from testcase where suiteUUID = :suiteUUID",nativeQuery = true)
-	public List<TestCaseEntity> findByTestSuiteUUID(@Param("suiteUUID") String suiteUUID);
+    List<TestCaseEntity> findByTestSuiteUUID(@Param("suiteUUID") String suiteUUID);
 	
 	@Query(value = "select * from testcase where uuid = :suiteUUID",nativeQuery = true)
-	public TestCaseEntity findByUUID(@Param("suiteUUID") String uuid);
+    TestCaseEntity findByUUID(@Param("suiteUUID") String uuid);
 }

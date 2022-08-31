@@ -25,7 +25,7 @@ import autoServer.Entity.UserEntity;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	@Autowired
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository user) {
 		super(authenticationManager);

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/regresstion")
+@RequestMapping("/api/regression")
 public class RegresstionController {
     @Autowired
     private IRegresstionServices regresstionServices;

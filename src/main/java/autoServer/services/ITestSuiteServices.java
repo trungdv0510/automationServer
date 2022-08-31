@@ -11,12 +11,12 @@ import autoServer.DTO.requestData;
 import autoServer.DTO.testSuiteDetails;
 
 public interface ITestSuiteServices {
-	public boolean save(TestSuiteDTO testsuite);
-	public boolean delete(long[] id);
-	public List<TestSuiteDTO> findAlls();
-	public List<TestSuiteDTO> findAlls(Pageable page);
-	public boolean update(TestSuiteDTO testsuite);
-	public List<Integer> getCountPassFail();
-	public testSuiteDetails findOneByUUID(String uuid);
-	public List<TestSuiteDTO> getTestSuiteDTOByDate(String startDate , String endDate);
+	boolean save(TestSuiteDTO testsuite);
+	boolean delete(long[] id);
+	List<TestSuiteDTO> findAlls();
+	List<TestSuiteDTO> findAlls(Pageable page);
+	boolean update(TestSuiteDTO testsuite);
+	List<Integer> getCountPassFail();
+	testSuiteDetails findOneByUUID(String uuid);
+	List<TestSuiteDTO> getTestSuiteDTOByDate(String startDate , String endDate);
 }

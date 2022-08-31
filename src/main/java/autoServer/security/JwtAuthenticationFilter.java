@@ -31,7 +31,7 @@ import autoServer.DTO.UserDTO;
 import autoServer.DTO.UserPrincipal;
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	public static List<Cookie> listCookies = new LinkedList<Cookie>();
-	 private AuthenticationManager authenticationManager;
+	 private final AuthenticationManager authenticationManager;
 
 	    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
 	        this.authenticationManager = authenticationManager;
@@ -92,6 +92,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	        //response.addHeader(JwtProperties.HEADER_STRING, JwtProperties.TOKEN_PREFIX +  token);
 	        ObjectMapper mapper = new ObjectMapper();
 	        response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");			mapper.writeValue(response.getOutputStream(), token);
+	        response.setCharacterEncoding("UTF-8");
+			mapper.writeValue(response.getOutputStream(), token);
 	    }
 }

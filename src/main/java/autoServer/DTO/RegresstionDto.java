@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.SqlResultSetMapping;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Data
@@ -31,12 +32,18 @@ import java.time.LocalDateTime;
         }
 )
 public class RegresstionDto {
+    @NotEmpty(message = "testcase name is null")
     private String testcaseName;
+    @NotEmpty(message = "date run is null")
     private LocalDateTime dateRun;
+    @NotEmpty(message = "link evidence is null")
     private String evidenceLink;
+    @NotEmpty(message = "result is null")
     private String result;
-    private Integer monthRunScript;
+    @NotEmpty(message = "author is null")
     private String author;
-    private String ErrorDecription;
+    @NotEmpty(message = "error description is null")
+    private String ErrorDescription;
+    @NotEmpty(message = "sprint is null")
     private String sprint;
 }

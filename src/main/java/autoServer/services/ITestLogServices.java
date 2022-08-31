@@ -9,13 +9,13 @@ import autoServer.DTO.TestLogDTO;
 import autoServer.DTO.TestSuiteDTO;
 
 public interface ITestLogServices {
-	public boolean save(TestLogDTO testlog);
-	public boolean delete(long[] id);
-	public List<TestLogDTO> findAlls();
-	public List<TestLogDTO> findAlls(Pageable page);
-	public boolean update(TestLogDTO testlog);
-	public boolean saveAll(List<TestLogDTO> testLogDTOs);
-	public List<TestLogDTO> findAllTestLogsWithTestcaseUUID(String uuid);
-	public TestLogDTO findOneByID(Long id);
-	public String saveImgOrVideo(MultipartFile imgFile);
+	boolean save(TestLogDTO testlog);
+	boolean delete(long[] id);
+	List<TestLogDTO> findAlls();
+	List<TestLogDTO> findAlls(Pageable page);
+	boolean update(TestLogDTO testlog);
+	boolean saveAll(List<TestLogDTO> testLogDTOs);
+	List<TestLogDTO> findAllTestLogsWithTestcaseUUID(String uuid);
+	TestLogDTO findOneByID(Long id);
+	String saveImgOrVideo(MultipartFile imgFile);
 }

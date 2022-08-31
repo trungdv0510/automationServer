@@ -8,11 +8,11 @@ import autoServer.DTO.TestSuiteDTO;
 import autoServer.DTO.UserDTO;
 
 public interface IUserServices {
-	public String save(UserDTO user);
-	public boolean delete(long[] id);
-	public List<UserDTO> findAlls();
-	public List<UserDTO> findAlls(Pageable page);
-	public boolean update(UserDTO user);
-	public boolean login(UserDTO user);
-	public boolean logout(String tokens);
+	String save(UserDTO user);
+	boolean delete(long[] id);
+	List<UserDTO> findAlls();
+	List<UserDTO> findAlls(Pageable page);
+	boolean update(UserDTO user);
+	boolean login(UserDTO user);
+	boolean logout(String tokens);
 }

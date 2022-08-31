@@ -28,7 +28,6 @@ public class testSuiteController {
 	@PostMapping(value = "/testsuite", produces = "application/json")
 	public ResponseEntity<String> insertSuite(@Valid @RequestBody TestSuiteDTO testSuiteDTO) {
 		String result = "FAIL";
-
 		if (testsuite.save(testSuiteDTO)) {
 			result = "OK";
 		}
@@ -40,7 +39,7 @@ public class testSuiteController {
 	public ResponseEntity<Object> fineOne(@PathVariable(value = "uuid")  @NotBlank(message = "id is not null") String uuid) {
 		HttpStatus status = HttpStatus.NOT_FOUND;
 		Object testsuiteDTO = "Not found";
-		if (!StringUtils.isBlank(uuid.toString())) {
+		if (!StringUtils.isBlank(uuid)) {
 			testsuiteDTO = testsuite.findOneByUUID(uuid);
 			if (testsuiteDTO != null) {
 				status = HttpStatus.OK;

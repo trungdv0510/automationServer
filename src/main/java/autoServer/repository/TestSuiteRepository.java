@@ -11,12 +11,12 @@ import autoServer.Entity.TestSuiteEntity;
 
 public interface TestSuiteRepository extends JpaRepository<TestSuiteEntity, Long>{
 	@Query(value = "select * from testsuite where result = :resuit",nativeQuery = true)
-	public int getCountTestSuitePassOrFail(@Param("resuit") String resuil);
+    int getCountTestSuitePassOrFail(@Param("resuit") String resuil);
 	
 	@Query(value = "select * from testsuite where create_date >= :startDate and create_date <= :endDate",nativeQuery = true)
-	public List<TestSuiteEntity> getTestSuiteByDateStartAndDateEnd(@Param("startDate") Date startDate, @Param("endDate")Date endDate);
+    List<TestSuiteEntity> getTestSuiteByDateStartAndDateEnd(@Param("startDate") Date startDate, @Param("endDate")Date endDate);
 	
 	@Query(value = " SELECT * FROM testsuite where uuid = :uuid",nativeQuery = true)
-	public TestSuiteEntity findOneByUUID(@Param("uuid") String uuid);
+    TestSuiteEntity findOneByUUID(@Param("uuid") String uuid);
 	
 }

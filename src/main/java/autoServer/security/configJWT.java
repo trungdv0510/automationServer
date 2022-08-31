@@ -24,8 +24,8 @@ import autoServer.services.impl.UserPrincipalDetailsService;
 @Configurable
 @EnableWebSecurity
 public class configJWT extends WebSecurityConfigurerAdapter {
-	private UserPrincipalDetailsService userService;
-	 private UserRepository userRepository;
+	private final UserPrincipalDetailsService userService;
+	 private final UserRepository userRepository;
 	public configJWT(UserPrincipalDetailsService userPrincipalDetailsService, UserRepository use) {
 		this.userService = userPrincipalDetailsService;
 		this.userRepository = use;

@@ -29,12 +29,10 @@ public class RegresstionEntity extends AbtractEntity {
 	private String evidenceLink;
 	@Column(nullable = false)
 	private String result;
-	@Column(nullable = false)
-	private int monthRunScript = new Date().getMonth();
 	@Column
 	private String author;
 	@Column
-	private String ErrorDecription;
+	private String ErrorDescription;
 	@Column
 	private String sprint;
 }
