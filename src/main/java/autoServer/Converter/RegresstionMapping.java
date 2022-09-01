@@ -1,9 +1,7 @@
 package autoServer.Converter;
 
 import autoServer.DTO.RegresstionDto;
-import autoServer.DTO.TestCaseDTO;
 import autoServer.Entity.RegresstionEntity;
-import autoServer.repository.TestSuiteRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

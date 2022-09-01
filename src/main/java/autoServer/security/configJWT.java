@@ -1,8 +1,8 @@
 package autoServer.security;
 
-import java.util.Arrays;
-
+import autoServer.Utils.contains;
 import autoServer.repository.UserRepository;
+import autoServer.services.impl.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -18,8 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import autoServer.Utils.contains;
-import autoServer.services.impl.UserPrincipalDetailsService;
+import java.util.Arrays;
 
 @Configurable
 @EnableWebSecurity

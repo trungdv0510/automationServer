@@ -2,7 +2,6 @@ package autoServer.services.impl;
 
 import autoServer.Converter.RegresstionMapping;
 import autoServer.DTO.RegresstionDto;
-import autoServer.DTO.TestSuiteDTO;
 import autoServer.Entity.RegresstionEntity;
 import autoServer.Utils.contains;
 import autoServer.repository.RegresstionInteface;

@@ -1,9 +1,7 @@
 package autoServer.Converter;
 
 import autoServer.DTO.ConfigDto;
-import autoServer.DTO.TestSuiteDTO;
 import autoServer.Entity.ConfigEntity;
-import autoServer.Entity.TestSuiteEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

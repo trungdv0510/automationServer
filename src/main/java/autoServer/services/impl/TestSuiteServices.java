@@ -1,21 +1,5 @@
 package autoServer.services.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import autoServer.Entity.RegresstionEntity;
-import autoServer.repository.RegresstionRepository;
-import autoServer.services.IRegresstionServices;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import autoServer.Converter.TestCaseMapping;
 import autoServer.Converter.TestLogMapping;
 import autoServer.Converter.TestSuiteMapping;
@@ -26,10 +10,23 @@ import autoServer.DTO.testSuiteDetails;
 import autoServer.Entity.TestCaseEntity;
 import autoServer.Entity.TestSuiteEntity;
 import autoServer.Utils.contains;
+import autoServer.repository.RegresstionRepository;
 import autoServer.repository.TestLogRepository;
 import autoServer.repository.TestSuiteRepository;
 import autoServer.repository.TestcaseRepository;
 import autoServer.services.ITestSuiteServices;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TestSuiteServices implements ITestSuiteServices {
@@ -56,7 +53,6 @@ public class TestSuiteServices implements ITestSuiteServices {
 				testSuiteRepository.save(entity);
 				result = true;
 			}
-			LOGGER.info("Them thanh cong");
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -79,7 +75,7 @@ public class TestSuiteServices implements ITestSuiteServices {
 	}
 
 	public List<TestSuiteDTO> findAlls() {
-		List<TestSuiteDTO> testSuiteDTOs = new ArrayList<TestSuiteDTO>();
+		List<TestSuiteDTO> testSuiteDTOs = new ArrayList<>();
 		try {
 			testSuiteDTOs = testSuiteRepository.findAll().stream().map(i -> mapping.toDTO(i))
 					.collect(Collectors.toList());
@@ -91,7 +87,7 @@ public class TestSuiteServices implements ITestSuiteServices {
 	}
 
 	public List<TestSuiteDTO> findAlls(Pageable page) {
-		List<TestSuiteDTO> testSuiteDTOs = new ArrayList<TestSuiteDTO>();
+		List<TestSuiteDTO> testSuiteDTOs = new ArrayList<>();
 		try {
 			testSuiteDTOs = testSuiteRepository.findAll(page).getContent().stream().map(i -> mapping.toDTO(i))
 					.collect(Collectors.toList());
@@ -105,8 +101,8 @@ public class TestSuiteServices implements ITestSuiteServices {
 	public boolean update(TestSuiteDTO testsuite) {
 		boolean result = false;
 		try {
-			TestSuiteEntity testSuiteEntity = testSuiteRepository.findById(testsuite.getId()).get();
-			if (testSuiteEntity != null) {
+			if (testSuiteRepository.findById(testsuite.getId()).isPresent()) {
+				TestSuiteEntity testSuiteEntity = testSuiteRepository.findById(testsuite.getId()).get();
 				testSuiteEntity.setTestlogSum(testsuite.getTestlogSum());
 				testSuiteEntity.setResult(testsuite.getResult());
 				testSuiteRepository.saveAndFlush(testSuiteEntity);
@@ -121,7 +117,7 @@ public class TestSuiteServices implements ITestSuiteServices {
 
 	@Override
 	public List<Integer> getCountPassFail() {
-		List<Integer> listPassFail = new ArrayList<Integer>();
+		List<Integer> listPassFail = new ArrayList<>();
 		try {
 			int totalPass = testSuiteRepository.getCountTestSuitePassOrFail(contains.pass);
 			int totalFail = testSuiteRepository.getCountTestSuitePassOrFail(contains.fail);
@@ -143,7 +139,7 @@ public class TestSuiteServices implements ITestSuiteServices {
 		try {
 			TestSuiteEntity testSuiteEntity = testSuiteRepository.findOneByUUID(uuid);
 			TestSuiteDTO testestSuiteDTO = mapping.toDTO(testSuiteEntity);
-			List<List<TestLogDTO>> testlogList = new ArrayList<List<TestLogDTO>>(); 
+			List<List<TestLogDTO>> testlogList = new ArrayList<>();
 			if (testestSuiteDTO!=null) {
 				List<TestCaseEntity> testCaseEntities = testcaseRepository.findByTestSuiteUUID(uuid);
 				List<TestCaseDTO> testCaseDTOs =  testCaseEntities
@@ -170,7 +166,7 @@ public class TestSuiteServices implements ITestSuiteServices {
 
 	@Override
 	public List<TestSuiteDTO> getTestSuiteDTOByDate(String startDate , String endDate) {
-		List<TestSuiteDTO> listTestSuiteDTOs = new LinkedList<TestSuiteDTO>();
+		List<TestSuiteDTO> listTestSuiteDTOs = new LinkedList<>();
 		try {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Date dateStart = format.parse(startDate);

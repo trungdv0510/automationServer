@@ -1,24 +1,24 @@
 package autoServer.services.impl;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import autoServer.repository.TestLogRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import autoServer.Converter.TestLogMapping;
 import autoServer.DTO.TestLogDTO;
 import autoServer.Entity.TestLogEntity;
 import autoServer.Utils.contains;
 import autoServer.Utils.fileUtils;
+import autoServer.repository.TestLogRepository;
 import autoServer.services.ITestLogServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class TestLogServices implements ITestLogServices {
@@ -60,7 +60,7 @@ public class TestLogServices implements ITestLogServices {
 
 	@Override
 	public List<TestLogDTO> findAlls() {
-		List<TestLogDTO> testLogDTOs = new ArrayList<TestLogDTO>();
+		List<TestLogDTO> testLogDTOs = new ArrayList<>();
 		try {
 			testLogDTOs = repository.findAll().stream().map(i -> mapping.toDTO(i)).collect(Collectors.toList());
 		} catch (Exception e) {
@@ -72,7 +72,7 @@ public class TestLogServices implements ITestLogServices {
 
 	@Override
 	public List<TestLogDTO> findAlls(Pageable page) {
-		List<TestLogDTO> testLogDTOs = new ArrayList<TestLogDTO>();
+		List<TestLogDTO> testLogDTOs = new ArrayList<>();
 		try {
 			testLogDTOs = repository.findAll().stream().map(i -> mapping.toDTO(i)).collect(Collectors.toList());
 		} catch (Exception e) {
@@ -86,11 +86,13 @@ public class TestLogServices implements ITestLogServices {
 	public boolean update(TestLogDTO testlog) {
 		boolean result = false;
 		try {
-			TestLogEntity testlogEntity = repository.findById(testlog.getId()).get();
-			testlogEntity.setStepName(testlog.getStepName());
-			testlogEntity.setResult(testlog.getResult());
-			repository.saveAndFlush(testlogEntity);
-			result = true;
+			if (repository.findById(testlog.getId()).isPresent()){
+				TestLogEntity testlogEntity = repository.findById(testlog.getId()).get();
+				testlogEntity.setStepName(testlog.getStepName());
+				testlogEntity.setResult(testlog.getResult());
+				repository.saveAndFlush(testlogEntity);
+				result = true;
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -119,10 +121,12 @@ public class TestLogServices implements ITestLogServices {
 
 	@Override
 	public List<TestLogDTO> findAllTestLogsWithTestcaseUUID(String uuid) {
-		List<TestLogDTO> listTesLog = null;
+		List<TestLogDTO> listTesLog = new ArrayList<>();
 		try {
-			listTesLog = repository.findAllTestWithTestCaseUUID(uuid).stream().map(i -> mapping.toDTO(i))
-					.collect(Collectors.toList());
+			if (!repository.findAllTestWithTestCaseUUID(uuid).isEmpty()){
+				listTesLog = repository.findAllTestWithTestCaseUUID(uuid).stream().map(i -> mapping.toDTO(i))
+						.collect(Collectors.toList());
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.getMessage();
@@ -150,11 +154,11 @@ public class TestLogServices implements ITestLogServices {
 				byte[] bytes = imgFile.getBytes();
 				String fileName = contains.randomDate() + imgFile.getOriginalFilename();
 				Path path = null;
-				if(imgFile.getContentType().equals(contains.contenTypeImg)) {
+				if(Objects.equals(imgFile.getContentType(), contains.contenTypeImg)) {
 					 path = Paths.get(contains.folderPublic + contains.folderImg + fileName);
 					 count++;
 				}
-				else if(imgFile.getContentType().equals(contains.contentTypeVideo)) {
+				else if(Objects.equals(imgFile.getContentType(), contains.contentTypeVideo)) {
 					 path = Paths.get(contains.folderPublic + contains.folderVideo + fileName);
 					 count++;
 				}

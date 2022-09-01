@@ -1,9 +1,9 @@
 package autoServer.Utils;
 
+import org.springframework.http.HttpHeaders;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.springframework.http.HttpHeaders;
 
 public class contains {
 	public static String pass = "Pass";
