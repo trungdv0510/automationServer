@@ -17,11 +17,7 @@ public class ConfigService implements IConfigService {
     private ConfigMapping configMapping;
     @Override
     public String getValueConfig(String configName) {
-        try{
-            return configRepository.getConfigValue(configName);
-        }catch (Exception e){
-            return "";
-        }
+        return configRepository.getConfigValue(configName);
     }
 
     @Override

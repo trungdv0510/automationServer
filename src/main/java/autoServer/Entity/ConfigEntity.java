@@ -13,8 +13,8 @@ import javax.persistence.*;
 @Table(name = "config")
 public class ConfigEntity {
     @Id
-    @Column
+    @Column(name = "config_name")
     private String configName;
-    @Column
+    @Column(name = "config_value")
     private String configValue;
 }

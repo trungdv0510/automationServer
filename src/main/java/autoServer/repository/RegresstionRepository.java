@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RegresstionRepository extends JpaRepository<RegresstionEntity,Long>,RegresstionInteface{
+public interface RegresstionRepository extends JpaRepository<RegresstionEntity,Long>{
 
 }

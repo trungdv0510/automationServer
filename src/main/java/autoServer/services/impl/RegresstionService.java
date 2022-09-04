@@ -31,7 +31,7 @@ public class RegresstionService implements IRegresstionServices {
     @Override
     public void save(RegresstionDto regresstionDto){
         String configRegress = configService.getValueConfig(contains.IS_REGRESS);
-        if (configRegress.contains(contains.IS_REGRESS)){
+        if (configRegress.equalsIgnoreCase(contains.IS_REGRESS)){
             RegresstionEntity regresstionEntity = regresstionMapping.toEntity(regresstionDto);
             repository.save(regresstionEntity);
         }

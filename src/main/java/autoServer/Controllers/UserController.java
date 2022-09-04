@@ -31,7 +31,7 @@ public class UserController {
 		return new ResponseEntity<>(result, status);
 	}
 	@GetMapping(value = "logout")
-	public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response){
+	public ResponseEntity<String> logout(HttpServletRequest request){
 		String responeString = "logout fail";
 		String token = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
 		if (!StringUtils.isBlank(token)) {
