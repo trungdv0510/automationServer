@@ -9,4 +9,5 @@ import java.util.List;
 public interface IRegresstionServices {
     List<RegresstionDto> getListRegresstionDto(Date startDate, Date endDate, Integer sprint);
     void save(RegresstionDto regresstionDto);
+    List<String> getSprint();
 }

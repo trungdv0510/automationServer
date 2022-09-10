@@ -16,6 +16,6 @@ public interface ITestLogServices {
 	boolean update(TestLogDTO testlog);
 	boolean saveAll(List<TestLogDTO> testLogDTOs);
 	List<TestLogDTO> findAllTestLogsWithTestcaseUUID(String uuid);
-	TestLogDTO findOneByID(Long id);
+	TestLogDTO findOneByID(String id);
 	String saveImgOrVideo(MultipartFile imgFile);
 }

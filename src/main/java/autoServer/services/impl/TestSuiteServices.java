@@ -101,8 +101,8 @@ public class TestSuiteServices implements ITestSuiteServices {
 	public boolean update(TestSuiteDTO testsuite) {
 		boolean result = false;
 		try {
-			if (testSuiteRepository.findById(testsuite.getId()).isPresent()) {
-				TestSuiteEntity testSuiteEntity = testSuiteRepository.findById(testsuite.getId()).get();
+			if (testSuiteRepository.findOneByUUID(testsuite.getUuid())!=null) {
+				TestSuiteEntity testSuiteEntity = testSuiteRepository.findOneByUUID(testsuite.getUuid());
 				testSuiteEntity.setTestlogSum(testsuite.getTestlogSum());
 				testSuiteEntity.setResult(testsuite.getResult());
 				testSuiteRepository.saveAndFlush(testSuiteEntity);

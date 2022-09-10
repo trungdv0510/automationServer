@@ -58,10 +58,10 @@ public class TestLogController {
 	}
 	
 	@GetMapping(value = "/user/testlogs/{id}",produces = "application/json")
-	public ResponseEntity<Object> getTestLogWithId(@PathVariable(value = "id") @NotBlank Long id) {
+	public ResponseEntity<Object> getTestLogWithId(@PathVariable(value = "id") @NotBlank String id) {
 		Object testLog = "Not found";
 		HttpStatus status = HttpStatus.NOT_FOUND;
-		if (id<=0) {
+		if (StringUtils.isBlank(id)) {
 			testLog = testlogService.findOneByID(id);
 			if (testLog != null) {
 				status = HttpStatus.OK;

@@ -88,15 +88,15 @@ public class TestcaseService implements ITestcaseServices {
 	}
 
 	@Override
-	public boolean update(TestCaseDTO testsuite) {
+	public boolean update(TestCaseDTO testcaseDto) {
 		boolean result = false;
 		try {
-			if (testsuite != null) {
-				if (testcaseRepository.findById(testsuite.getId()).isPresent()){
-					TestCaseEntity testcase = testcaseRepository.findById(testsuite.getId()).get();
-					testcase.setMethodName(testsuite.getMethodName());
-					testcase.setTestName(testsuite.getTestName());
-					testcase.setResult(testsuite.getResult());
+			if (testcaseDto != null) {
+				if (testcaseRepository.findByUUID(testcaseDto.getUuid())!= null){
+					TestCaseEntity testcase = testcaseRepository.findByUUID(testcaseDto.getUuid());
+					testcase.setMethodName(testcaseDto.getMethodName());
+					testcase.setTestName(testcaseDto.getTestName());
+					testcase.setResult(testcaseDto.getResult());
 					testcaseRepository.saveAndFlush(testcase);
 					result = true;
 				}

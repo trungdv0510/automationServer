@@ -12,6 +12,6 @@ public interface TestLogRepository extends JpaRepository<TestLogEntity, Long>{
 	@Query(value = "SELECT * FROM testlog WHERE testcaseUUID = :testcaseUUID",nativeQuery = true)
     List<TestLogEntity> findAllTestWithTestCaseUUID(@Param("testcaseUUID") String uuid);
 	
-	@Query(value = "SELECT * FROM testlog WHERE id = :id",nativeQuery = true)
-    TestLogEntity findOneById(@Param("id") Long id);
+	@Query(value = "SELECT * FROM testlog WHERE uuid = :id",nativeQuery = true)
+    TestLogEntity findOneByUuid(@Param("id") String id);
 }

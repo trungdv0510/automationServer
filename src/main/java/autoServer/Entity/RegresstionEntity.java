@@ -3,10 +3,7 @@ package autoServer.Entity;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.SqlResultSetMapping;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import autoServer.Utils.contains;
 import lombok.AllArgsConstructor;
@@ -15,24 +12,28 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "regresstion")
-public class RegresstionEntity extends AbtractEntity {
-	@Column(nullable = false)
+public class RegresstionEntity {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	@Column(nullable = false, name = "testcase_name")
 	private String testcaseName;
 	@Column(nullable = false)
 	private LocalDateTime dateRun = LocalDateTime.now();
-	@Column(nullable = false)
+	@Column(nullable = false,name = "evidence_link")
 	private String evidenceLink;
 	@Column(nullable = false)
 	private String result;
 	@Column
 	private String author;
-	@Column
+	@Column(name = "error_description")
 	private String ErrorDescription;
 	@Column
 	private String sprint;
+	@Column(name = "testsuite_uuid")
+	private String testsuiteUuid;
 }

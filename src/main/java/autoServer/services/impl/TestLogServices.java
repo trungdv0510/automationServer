@@ -86,8 +86,8 @@ public class TestLogServices implements ITestLogServices {
 	public boolean update(TestLogDTO testlog) {
 		boolean result = false;
 		try {
-			if (repository.findById(testlog.getId()).isPresent()){
-				TestLogEntity testlogEntity = repository.findById(testlog.getId()).get();
+			if (repository.findOneByUuid(testlog.getUuid())!=null){
+				TestLogEntity testlogEntity = repository.findOneByUuid(testlog.getUuid());
 				testlogEntity.setStepName(testlog.getStepName());
 				testlogEntity.setResult(testlog.getResult());
 				repository.saveAndFlush(testlogEntity);
@@ -135,10 +135,10 @@ public class TestLogServices implements ITestLogServices {
 	}
 
 	@Override
-	public TestLogDTO findOneByID(Long id) {
+	public TestLogDTO findOneByID(String id) {
 		TestLogDTO testLog = null;
 		try {
-			testLog = mapping.toDTO(repository.findOneById(id));
+			testLog = mapping.toDTO(repository.findOneByUuid(id));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

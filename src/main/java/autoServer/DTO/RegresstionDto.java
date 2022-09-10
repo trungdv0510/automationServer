@@ -46,4 +46,5 @@ public class RegresstionDto {
     private String ErrorDescription;
     @NotEmpty(message = "sprint is null")
     private String sprint;
+    private String testSuiteUuid;
 }

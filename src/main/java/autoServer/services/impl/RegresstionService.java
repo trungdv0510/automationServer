@@ -36,4 +36,9 @@ public class RegresstionService implements IRegresstionServices {
             repository.save(regresstionEntity);
         }
     }
+
+    @Override
+    public List<String> getSprint() {
+        return regresstionInteface.getSprint();
+    }
 }

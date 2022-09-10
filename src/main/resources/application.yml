@@ -4,12 +4,13 @@ server:
 spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/automationServer
+#    url: jdbc:mysql://:3306/automationDatabase
     username: root
     password: 44128920
     driverClassName: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB53Dialect
