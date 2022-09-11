@@ -18,7 +18,7 @@ public class RegresstionController {
     @GetMapping("/search")
     public List<RegresstionDto> getRegressionTest(@RequestParam(value = "startDate",required = false) Date startDate,
                                                    @RequestParam(value = "endDate",required = false) Date endDate,
-                                                   @RequestParam(value="sprint",required = false) int sprint){
+                                                   @RequestParam(value="sprint",required = false) String sprint){
         return regressionServices.getListRegresstionDto(startDate,endDate,sprint);
     }
     @PostMapping("/save")

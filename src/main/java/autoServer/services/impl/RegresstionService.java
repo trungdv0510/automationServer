@@ -25,13 +25,13 @@ public class RegresstionService implements IRegresstionServices {
     @Autowired
     private IConfigService configService;
     @Override
-    public List<RegresstionDto> getListRegresstionDto(Date startDate, Date endDate, Integer sprint){
+    public List<RegresstionDto> getListRegresstionDto(Date startDate, Date endDate, String sprint){
         return regresstionInteface.getListRegresstionTest(startDate,endDate,sprint);
     }
     @Override
     public void save(RegresstionDto regresstionDto){
         String configRegress = configService.getValueConfig(contains.IS_REGRESS);
-        if (configRegress.equalsIgnoreCase(contains.IS_REGRESS)){
+        if (configRegress.equalsIgnoreCase(contains.YES_REGRESS)){
             RegresstionEntity regresstionEntity = regresstionMapping.toEntity(regresstionDto);
             repository.save(regresstionEntity);
         }

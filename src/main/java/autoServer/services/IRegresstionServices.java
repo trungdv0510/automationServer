@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface IRegresstionServices {
-    List<RegresstionDto> getListRegresstionDto(Date startDate, Date endDate, Integer sprint);
+    List<RegresstionDto> getListRegresstionDto(Date startDate, Date endDate, String sprint);
     void save(RegresstionDto regresstionDto);
     List<String> getSprint();
 }

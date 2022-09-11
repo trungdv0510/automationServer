@@ -21,7 +21,7 @@ public class contains {
 	public static final String IS_REGRESS = "IS_REGRESS";
 	public static final String NO_REGRESS = "NO";
 	public static final String YES_REGRESS = "YES";
-
+	public static final String enityManagerName="autoDb";
 	// config cho phần send to server
 	public static HttpHeaders configHeader() {
 		 HttpHeaders headers = new HttpHeaders();

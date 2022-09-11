@@ -3,6 +3,7 @@ server:
 
 spring:
   datasource:
+#    jdbcUrl: jdbc:mariadb://localhost:3306/automationServer
     url: jdbc:mariadb://localhost:3306/automationServer
 #    url: jdbc:mysql://:3306/automationDatabase
     username: root

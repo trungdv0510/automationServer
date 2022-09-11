@@ -1,37 +1,24 @@
 package autoServer.DTO;
 
 import autoServer.Utils.contains;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.SqlResultSetMapping;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@SqlResultSetMapping(
-        name = contains.ResultSetMapping.REGRESSTION_MAPPTING,
-        classes = {
-                @ConstructorResult(
-                        targetClass = RegresstionDto.class,
-                        columns = {
-                                @ColumnResult(name = "testcaseName", type = Long.class),
-                                @ColumnResult(name = "dateRun", type = LocalDateTime.class),
-                                @ColumnResult(name = "evidenceLink", type = String.class),
-                                @ColumnResult(name = "monthRunScript", type = Integer.class),
-                                @ColumnResult(name = "author", type = String.class),
-                                @ColumnResult(name = "ErrorDecription", type = String.class),
-                                @ColumnResult(name = "sprint", type = String.class)
-                        }
-                )
-        }
-)
-public class RegresstionDto {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class RegresstionDto implements Serializable {
+    private Long id;
     @NotEmpty(message = "testcase name is null")
     private String testcaseName;
     @NotEmpty(message = "date run is null")
@@ -42,9 +29,22 @@ public class RegresstionDto {
     private String result;
     @NotEmpty(message = "author is null")
     private String author;
-    @NotEmpty(message = "error description is null")
     private String ErrorDescription;
     @NotEmpty(message = "sprint is null")
     private String sprint;
-    private String testSuiteUuid;
+    private String testsuiteUuid;
+
+    public RegresstionDto(Long id, String testcaseName, LocalDateTime dateRun,
+                          String evidenceLink, String result, String author,
+                          String ErrorDescription, String sprint, String testsuiteUuid) {
+        this.id = id;
+        this.testcaseName= testcaseName;
+        this.dateRun = dateRun;
+        this.evidenceLink = evidenceLink;
+        this.result = result;
+        this.author = author;
+        this.ErrorDescription = ErrorDescription;
+        this.sprint = sprint;
+        this.testsuiteUuid = testsuiteUuid;
+    }
 }

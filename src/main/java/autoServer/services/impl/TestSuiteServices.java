@@ -22,10 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,7 +74,7 @@ public class TestSuiteServices implements ITestSuiteServices {
 	public List<TestSuiteDTO> findAlls() {
 		List<TestSuiteDTO> testSuiteDTOs = new ArrayList<>();
 		try {
-			testSuiteDTOs = testSuiteRepository.findAll().stream().map(i -> mapping.toDTO(i))
+			testSuiteDTOs = testSuiteRepository.findAll().stream().sorted(Comparator.comparing(TestSuiteEntity::getRunTime).reversed()).map(i -> mapping.toDTO(i))
 					.collect(Collectors.toList());
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
