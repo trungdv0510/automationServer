@@ -9,6 +9,7 @@ import autoServer.DTO.TestSuiteDTO;
 import autoServer.DTO.testSuiteDetails;
 import autoServer.Entity.TestCaseEntity;
 import autoServer.Entity.TestSuiteEntity;
+import autoServer.Utils.FunctionUtils;
 import autoServer.Utils.contains;
 import autoServer.repository.RegresstionRepository;
 import autoServer.repository.TestLogRepository;
@@ -74,7 +75,7 @@ public class TestSuiteServices implements ITestSuiteServices {
 	public List<TestSuiteDTO> findAlls() {
 		List<TestSuiteDTO> testSuiteDTOs = new ArrayList<>();
 		try {
-			testSuiteDTOs = testSuiteRepository.findAll().stream().sorted(Comparator.comparing(TestSuiteEntity::getRunTime).reversed()).map(i -> mapping.toDTO(i))
+			testSuiteDTOs = testSuiteRepository.findAll().stream().sorted(Comparator.comparing(TestSuiteEntity::getDateRun).reversed()).map(i -> mapping.toDTO(i))
 					.collect(Collectors.toList());
 		} catch (IllegalArgumentException e) {
 			// TODO: handle exception
@@ -165,9 +166,8 @@ public class TestSuiteServices implements ITestSuiteServices {
 	public List<TestSuiteDTO> getTestSuiteDTOByDate(String startDate , String endDate) {
 		List<TestSuiteDTO> listTestSuiteDTOs = new LinkedList<>();
 		try {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-			Date dateStart = format.parse(startDate);
-			Date dateEnd = format.parse(endDate);
+			Date dateStart = FunctionUtils.convertStringToDate(startDate);
+			Date dateEnd =FunctionUtils.convertStringToDate(endDate);
 			List<TestSuiteEntity> listEntities = testSuiteRepository.getTestSuiteByDateStartAndDateEnd(dateStart,dateEnd);
 			listTestSuiteDTOs = listEntities.stream().map(i->mapping.toDTO(i)).collect(Collectors.toList());
 		} catch (Exception e) {

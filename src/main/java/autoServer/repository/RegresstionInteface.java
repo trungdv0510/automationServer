@@ -9,5 +9,6 @@ public interface RegresstionInteface {
     List<RegresstionDto> getListRegresstionTest(Date startDate, Date endDate, String sprint);
 
     List<String> getSprint();
+    Integer getTotalWithSprint(String sprintName, String result);
 
 }

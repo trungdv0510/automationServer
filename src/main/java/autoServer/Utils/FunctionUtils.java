@@ -2,8 +2,11 @@ package autoServer.Utils;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Slf4j
 public class FunctionUtils {
@@ -35,7 +38,7 @@ public class FunctionUtils {
     public static boolean isNullOrEmpty(String value) {
         return value == null || value.trim().equals("");
     }
-    public static LocalDateTime parseToLocalDatetime(Object value) {
+    public static LocalDateTime parseToLocalDatetime(Object value, String format) {
         if (value == null)
             return null;
         String tmp = parseToString(value);
@@ -43,7 +46,7 @@ public class FunctionUtils {
             return null;
 
         try {
-            LocalDateTime rtn = convertStringToLocalDateTime(tmp, "yyyy-MM-dd HH:mm:ss.S");
+            LocalDateTime rtn = convertStringToLocalDateTime(tmp, format);
             return rtn;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -60,5 +63,13 @@ public class FunctionUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         LocalDateTime formatDateTime = LocalDateTime.parse(value, formatter);
         return formatDateTime;
+    }
+    public static Date convertStringToDate(String date) throws ParseException {
+        return convertStringToDate(date,"yyyy-MM-dd");
+    }
+
+    public static Date convertStringToDate(String date, String patten) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat(patten);
+        return format.parse(date);
     }
 }

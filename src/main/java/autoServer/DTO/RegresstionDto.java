@@ -29,7 +29,7 @@ public class RegresstionDto implements Serializable {
     private String result;
     @NotEmpty(message = "author is null")
     private String author;
-    private String ErrorDescription;
+    private String errorDescription;
     @NotEmpty(message = "sprint is null")
     private String sprint;
     private String testsuiteUuid;
@@ -43,7 +43,7 @@ public class RegresstionDto implements Serializable {
         this.evidenceLink = evidenceLink;
         this.result = result;
         this.author = author;
-        this.ErrorDescription = ErrorDescription;
+        this.errorDescription = ErrorDescription;
         this.sprint = sprint;
         this.testsuiteUuid = testsuiteUuid;
     }

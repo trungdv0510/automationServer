@@ -3,18 +3,26 @@ package autoServer.Controllers;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
 
+import autoServer.services.impl.RegresstionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import static autoServer.Utils.contains.AUTOMATION_REPORT_FILE_NAME;
+
 @RestController
 @RequestMapping(value = "/public/")
-public class ImageAndVideoController {
+public class FilesController {
 	@RequestMapping(value = "/img/{imgName}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     public void getImage(@PathVariable(value = "imgName") String imgName,HttpServletResponse response) throws IOException {
         File imgFile = new File("public/img/"+imgName);
