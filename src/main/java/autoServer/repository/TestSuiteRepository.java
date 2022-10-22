@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import autoServer.Entity.TestSuiteEntity;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TestSuiteRepository extends JpaRepository<TestSuiteEntity, Long>{
 	@Query(value = "select * from testsuite where result = :resuit",nativeQuery = true)
     int getCountTestSuitePassOrFail(@Param("resuit") String resuil);

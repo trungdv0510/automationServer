@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import autoServer.Entity.TestCaseEntity;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TestcaseRepository extends JpaRepository<TestCaseEntity, Long>{
 	@Query(value = "select * from testcase where suiteUUID = :suiteUUID",nativeQuery = true)
     List<TestCaseEntity> findByTestSuiteUUID(@Param("suiteUUID") String suiteUUID);
