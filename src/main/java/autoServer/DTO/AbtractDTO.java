@@ -11,7 +11,6 @@ import lombok.Data;
 
 @Data
 public abstract class AbtractDTO<T> {
-	private Long id;
 	@NotEmpty(message = "UUID is empty")
 	private String uuid;
 	private String modifyBy;

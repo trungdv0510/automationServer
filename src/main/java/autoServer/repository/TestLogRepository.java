@@ -8,10 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 import autoServer.Entity.TestLogEntity;
 
-public interface testLogRepository extends JpaRepository<TestLogEntity, Long>{
+public interface TestLogRepository extends JpaRepository<TestLogEntity, Long>{
 	@Query(value = "SELECT * FROM testlog WHERE testcaseUUID = :testcaseUUID",nativeQuery = true)
-	public List<TestLogEntity> findAllTestWithTestCaseUUID(@Param("testcaseUUID") String uuid);
+    List<TestLogEntity> findAllTestWithTestCaseUUID(@Param("testcaseUUID") String uuid);
 	
-	@Query(value = "SELECT * FROM testlog WHERE id = :id",nativeQuery = true)
-	public TestLogEntity findOneById(@Param("id") Long id);
+	@Query(value = "SELECT * FROM testlog WHERE uuid = :id",nativeQuery = true)
+    TestLogEntity findOneByUuid(@Param("id") String id);
 }

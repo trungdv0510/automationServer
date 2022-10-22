@@ -19,7 +19,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "testcase")
-public class TestCaseEntity extends abtractEntity{
+public class TestCaseEntity extends AbtractEntity {
 	@Column(nullable = false)
 	private String testName;
 	@Column(nullable = false)

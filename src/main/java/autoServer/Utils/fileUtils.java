@@ -10,10 +10,13 @@ public class fileUtils {
 			if (fileName!=null) {
 				System.out.println(fileName.getContentType());
 				String path = fileName.getContentType();
-				
-				if(path.contains(contains.contenTypeImg)  || path.contains(contains.contentTypeVideo) && !StringUtils.isBlank(fileName.getContentType())) {
-					result = true;
+
+				if (path != null){
+					if(path.contains(contains.contenTypeImg)  || path.contains(contains.contentTypeVideo) && !StringUtils.isBlank(fileName.getContentType())) {
+						result = true;
+					}
 				}
+
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

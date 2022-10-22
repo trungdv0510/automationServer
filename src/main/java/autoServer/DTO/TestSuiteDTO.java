@@ -2,10 +2,14 @@ package autoServer.DTO;
 
 import javax.validation.constraints.NotEmpty;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class TestSuiteDTO extends AbtractDTO<TestSuiteDTO>{
 	@NotEmpty(message = "suiteName is empty")
@@ -24,4 +28,6 @@ public class TestSuiteDTO extends AbtractDTO<TestSuiteDTO>{
 	private String ipName;
 	@NotEmpty(message = "HostName is empty")
 	private String hostName;
+	private Integer sprint;
+	private boolean isRegresstion;
 }

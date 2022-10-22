@@ -1,17 +1,10 @@
 package autoServer.security;
 
-import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-
-import java.io.IOException;
-import java.util.Iterator;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.hibernate.query.criteria.internal.expression.function.AggregationFunction.COUNT;
+import autoServer.DTO.UserPrincipal;
+import autoServer.Entity.UserEntity;
+import autoServer.repository.UserRepository;
+import com.auth0.jwt.JWT;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,17 +12,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.auth0.jwt.JWT;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-import autoServer.DTO.UserPrincipal;
-import autoServer.Entity.UserEntity;
-import autoServer.repository.userRepository;
+import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 	@Autowired
-	private userRepository userRepository;
+	private final UserRepository userRepository;
 
-	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, userRepository user) {
+	public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserRepository user) {
 		super(authenticationManager);
 		this.userRepository = user;
 	}
@@ -59,7 +55,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 		try {
 			int count = 0;
 			String token = request.getHeader(JwtProperties.HEADER_STRING).replace(JwtProperties.TOKEN_PREFIX, "");
-			if (token != null) {
+			if (!StringUtils.isBlank(token)) {
 				// check cookie 
 				for (Cookie item: JwtAuthenticationFilter.listCookies) {
 					if (item.getName().contains(token)) {
@@ -78,12 +74,10 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 					if (userName != null) {
 						UserEntity userE = userRepository.findByUsername(userName);
 						UserPrincipal principal = new UserPrincipal(userE);
-						UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userName, null,
+						return new UsernamePasswordAuthenticationToken(userName, null,
 								principal.getAuthorities());
-						return auth;
 					}
 				}
-				return null;
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

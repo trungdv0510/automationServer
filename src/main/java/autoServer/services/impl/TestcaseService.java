@@ -1,21 +1,18 @@
 package autoServer.services.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
 import autoServer.Converter.TestCaseMapping;
 import autoServer.DTO.TestCaseDTO;
 import autoServer.Entity.TestCaseEntity;
-import autoServer.Entity.TestSuiteEntity;
-import autoServer.repository.testcaseRepository;
+import autoServer.repository.TestcaseRepository;
 import autoServer.services.ITestcaseServices;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TestcaseService implements ITestcaseServices {
@@ -23,7 +20,7 @@ public class TestcaseService implements ITestcaseServices {
 	@Autowired
 	private TestCaseMapping mapping;
 	@Autowired
-	private testcaseRepository testcaseRepository;
+	private TestcaseRepository testcaseRepository;
 
 	@Override
 	public boolean save(TestCaseDTO testcase) {
@@ -63,13 +60,10 @@ public class TestcaseService implements ITestcaseServices {
 
 	@Override
 	public List<TestCaseDTO> findAlls() {
-		List<TestCaseDTO> testcaseDTOs = new ArrayList<TestCaseDTO>();
+		List<TestCaseDTO> testcaseDTOs = new ArrayList<>();
 		try {
-			if (testcaseRepository.findAll() != null) {
 				testcaseDTOs = testcaseRepository.findAll().stream().map(i -> mapping.toDTO(i))
 						.collect(Collectors.toList());
-			}
-
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -79,7 +73,7 @@ public class TestcaseService implements ITestcaseServices {
 
 	@Override
 	public List<TestCaseDTO> findAlls(Pageable page) {
-		List<TestCaseDTO> testcaseDTOs = new ArrayList<TestCaseDTO>();
+		List<TestCaseDTO> testcaseDTOs = new ArrayList<>();
 		try {
 			if (page.isPaged()) {
 				testcaseDTOs = testcaseRepository.findAll(page).stream().map(i -> mapping.toDTO(i))
@@ -94,16 +88,18 @@ public class TestcaseService implements ITestcaseServices {
 	}
 
 	@Override
-	public boolean update(TestCaseDTO testsuite) {
+	public boolean update(TestCaseDTO testcaseDto) {
 		boolean result = false;
 		try {
-			if (testsuite != null) {
-				TestCaseEntity testcase = testcaseRepository.findById(testsuite.getId()).get();
-				testcase.setMethodName(testsuite.getMethodName());
-				testcase.setTestName(testsuite.getTestName());
-				testcase.setResult(testsuite.getResult());
-				testcaseRepository.saveAndFlush(testcase);
-				result = true;
+			if (testcaseDto != null) {
+				if (testcaseRepository.findByUUID(testcaseDto.getUuid())!= null){
+					TestCaseEntity testcase = testcaseRepository.findByUUID(testcaseDto.getUuid());
+					testcase.setMethodName(testcaseDto.getMethodName());
+					testcase.setTestName(testcaseDto.getTestName());
+					testcase.setResult(testcaseDto.getResult());
+					testcaseRepository.saveAndFlush(testcase);
+					result = true;
+				}
 			}
 
 		} catch (Exception e) {

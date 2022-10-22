@@ -1,21 +1,19 @@
 package autoServer.Converter;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import autoServer.DTO.TestCaseDTO;
 import autoServer.Entity.TestCaseEntity;
 import autoServer.Entity.TestSuiteEntity;
-import autoServer.repository.testSuiteRepository;
-import autoServer.repository.testcaseRepository;
+import autoServer.repository.TestSuiteRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class TestCaseMapping{
 	@Autowired
 	private ModelMapper modelmaper;
 	@Autowired 
-	private testSuiteRepository testsuite;
+	private TestSuiteRepository testsuite;
 	public TestCaseDTO toDTO(TestCaseEntity dto) {
 		TestCaseDTO testCaseDTO = null;
 		try {

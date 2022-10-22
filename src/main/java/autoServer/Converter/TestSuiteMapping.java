@@ -10,9 +10,9 @@ import autoServer.Entity.TestSuiteEntity;
 @Component
 public class TestSuiteMapping {
 	@Autowired
-	private ModelMapper modelMapper;;
+	private ModelMapper modelMapper;
 
-	public TestSuiteDTO toDTO(TestSuiteEntity entity) {
+    public TestSuiteDTO toDTO(TestSuiteEntity entity) {
 		TestSuiteDTO dto = null;
 		try {
 			dto = modelMapper.map(entity, TestSuiteDTO.class);

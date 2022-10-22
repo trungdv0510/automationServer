@@ -12,7 +12,7 @@ import autoServer.Entity.UserEntity;
 
 public class UserPrincipal implements UserDetails{
 
-	private UserEntity user;
+	private final UserEntity user;
 	
 	public UserPrincipal(UserEntity user) {
 		this.user = user;

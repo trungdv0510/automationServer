@@ -1,36 +1,27 @@
 package autoServer.services.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.Cookie;
-
-import org.apache.logging.log4j.Logger;
+import autoServer.Converter.UserMapping;
+import autoServer.DTO.UserDTO;
+import autoServer.Entity.UserEntity;
+import autoServer.repository.UserRepository;
+import autoServer.security.JwtAuthenticationFilter;
+import autoServer.services.IUserServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import autoServer.Converter.UserMapping;
-import autoServer.DTO.TestCaseDTO;
-import autoServer.DTO.UserDTO;
-import autoServer.Entity.TestSuiteEntity;
-import autoServer.Entity.UserEntity;
-import autoServer.repository.userRepository;
-import autoServer.security.JwtAuthenticationFilter;
-import autoServer.services.IUserServices;
+import javax.servlet.http.Cookie;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 @Service
 public class UserService implements IUserServices{
 
 	@Autowired
 	private UserMapping mapping;
 	@Autowired
-	private userRepository repository;
+	private UserRepository repository;
 	@Autowired 
 	private PasswordEncoder passwordEncoder;
 	@Override
@@ -72,12 +63,11 @@ public class UserService implements IUserServices{
 
 	@Override
 	public List<UserDTO> findAlls() {
-		List<UserDTO> testcaseDTOs = new ArrayList<UserDTO>();
+		List<UserDTO> testcaseDTOs = new ArrayList<>();
 		try {
-			if (repository.findAll() != null) {
-				testcaseDTOs = repository.findAll().stream().map(i -> mapping.toDTO(i))
-						.collect(Collectors.toList());
-			}
+			repository.findAll();
+			testcaseDTOs = repository.findAll().stream().map(i -> mapping.toDTO(i))
+					.collect(Collectors.toList());
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -88,7 +78,7 @@ public class UserService implements IUserServices{
 
 	@Override
 	public List<UserDTO> findAlls(Pageable page) {
-		List<UserDTO> testcaseDTOs = new ArrayList<UserDTO>();
+		List<UserDTO> testcaseDTOs = new ArrayList<>();
 		try {
 			if (page.isPaged()) {
 				testcaseDTOs = repository.findAll(page).stream().map(i -> mapping.toDTO(i))
