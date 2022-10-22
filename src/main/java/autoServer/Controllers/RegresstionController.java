@@ -60,7 +60,7 @@ public class RegresstionController {
     @GetMapping(value = "/report-automation")
     public ResponseEntity<?> reportAutomation(@RequestParam("startTime") String startTime,
                                               @RequestParam("endTime") String endTime,
-                                              @RequestParam("sprint") String sprint) {
+                                              @RequestParam(value = "sprint",required = false) String sprint) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
