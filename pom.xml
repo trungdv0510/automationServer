@@ -138,5 +138,6 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<finalName>server-automation</finalName>
 	</build>
 </project>
