@@ -3,6 +3,8 @@ package autoServer.Controllers;
 import autoServer.DTO.TestLogDTO;
 import autoServer.Utils.contains;
 import autoServer.services.ITestLogServices;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -73,7 +75,8 @@ public class TestLogController {
 		return new ResponseEntity<>(testLog,contains.configHeader(), status);
 	}
 	@PostMapping(value = "/img")
-	public ResponseEntity<String> saveImg(@NotEmpty(message = "Img not empty") @RequestParam("fileName") MultipartFile file){
+	public ResponseEntity<String> saveImg(@RequestParam("fileName") MultipartFile file){
+		System.out.println("img file =>>>>>>>>>>>>> "+file);
 		String result = testlogService.saveImgOrVideo(file);
 		HttpStatus status = HttpStatus.OK;
 		if (result.contains("Error")) {
@@ -82,7 +85,8 @@ public class TestLogController {
 		return new ResponseEntity<>(result, status);
 	}
 	@PostMapping(value = "/video")
-	public ResponseEntity<String> saveVideo(@NotEmpty(message = "video not empty") @RequestParam("fileName") MultipartFile file){
+	public ResponseEntity<String> saveVideo(@RequestParam("fileName") MultipartFile file){
+		System.out.println("video file =>>>>>>>>>>>>> "+file);
 		String result = testlogService.saveImgOrVideo(file);
 		HttpStatus status = HttpStatus.OK;
 		if (result.contains("Error")) {

@@ -4,6 +4,7 @@ import autoServer.Utils.contains;
 import autoServer.repository.UserRepository;
 import autoServer.services.impl.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -25,6 +26,8 @@ import java.util.Arrays;
 public class configJWT extends WebSecurityConfigurerAdapter {
 	private final UserPrincipalDetailsService userService;
 	 private final UserRepository userRepository;
+	@Value("${cors.url}")
+	 private String urlAccept;
 	public configJWT(UserPrincipalDetailsService userPrincipalDetailsService, UserRepository use) {
 		this.userService = userPrincipalDetailsService;
 		this.userRepository = use;
@@ -66,7 +69,7 @@ public class configJWT extends WebSecurityConfigurerAdapter {
 	  CorsConfigurationSource corsConfigurationSource() 
 	  {
 	    CorsConfiguration configuration = new CorsConfiguration();
-	    configuration.setAllowedOrigins(Arrays.asList("http://localhost:8081"));
+	    configuration.setAllowedOrigins(Arrays.asList("*"));
 	    configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
 	    configuration.setAllowedHeaders(Arrays.asList("*"));
 	    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

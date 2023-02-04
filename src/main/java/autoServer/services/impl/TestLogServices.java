@@ -12,9 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -146,34 +146,40 @@ public class TestLogServices implements ITestLogServices {
 	}
 
 	@Override
-	public String saveImgOrVideo(MultipartFile imgFile) {
-		String result = "Error";
+	public String saveImgOrVideo(MultipartFile file) {
+		String filePath = "Error";
 		try {
-			if (fileUtils.checkContenTypeFile(imgFile)) {
+			String currentDirectory = System.getProperty("user.dir");
+			System.out.println("user.dir: " + currentDirectory);
+			System.out.println("Đã chạy vào đây ");
+			if (fileUtils.checkContenTypeFile(file)) {
 				int count = 0;
-				byte[] bytes = imgFile.getBytes();
-				String fileName = contains.randomDate() + imgFile.getOriginalFilename();
-				Path path = null;
-				if(Objects.equals(imgFile.getContentType(), contains.contenTypeImg)) {
-					 path = Paths.get(contains.folderPublic + contains.folderImg + fileName);
+				String fileName = contains.randomDate() + file.getOriginalFilename();
+				if(Objects.equals(file.getContentType(), contains.contenTypeImg)) {
+					System.out.println("Đã chạy vào đây check images");
+					filePath = contains.folderPublic + contains.folderImg + fileName;
 					 count++;
 				}
-				else if(Objects.equals(imgFile.getContentType(), contains.contentTypeVideo)) {
-					 path = Paths.get(contains.folderPublic + contains.folderVideo + fileName);
+				else if(Objects.equals(file.getContentType(), contains.contentTypeVideo)) {
+					System.out.println("Đã chạy vào đây check video");
+					filePath = contains.folderPublic + contains.folderVideo + fileName;
 					 count++;
 				}
 				if (count>=1) {
-					Files.write(path, bytes);
-					result = path.toString();
+					System.out.println("Bắt đầu lưu file ");
+					File convertFile = new File(filePath);
+					convertFile.createNewFile();
+					FileOutputStream fout = new FileOutputStream(convertFile);
+					fout.write(file.getBytes());
+					fout.close();
+					System.out.println("Lưu file thành công ");
 				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exceptionTC
-			System.err.println(e.getMessage());
+			System.err.println(">>>>>>>>>>>>>>>>>>>>lỗi nè "+e.getMessage());
 		}
-		return result;
+		System.out.println(filePath);
+		return filePath;
 	}
-
-
-
 }

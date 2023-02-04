@@ -25,7 +25,7 @@ public class TestLogEntity extends AbtractEntity {
 	@Column(nullable = false)
 	private String testLogTime;
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "testcaseuuid",nullable = false,columnDefinition = "TEXT", referencedColumnName = "uuid")
+	@JoinColumn(name = "testcaseuuid", columnDefinition = "TEXT", referencedColumnName = "uuid")
 	@ToString.Exclude
 	private TestCaseEntity testcaseuuid;
 }

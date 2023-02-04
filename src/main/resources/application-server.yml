@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-#    jdbcUrl: jdbc:mariadb://localhost:3306/automationServer
+    #    jdbcUrl: jdbc:mariadb://localhost:3306/automationServer
     url: jdbc:mariadb://192.168.0.104:3306/automationServer
-#    url: jdbc:mysql://:3306/automationDatabase
+    #    url: jdbc:mysql://:3306/automationDatabase
     username: root
     password: 44128920
     driverClassName: org.mariadb.jdbc.Driver
@@ -23,16 +23,3 @@ spring:
         max-request-size: 128MB
 cors:
   url: http://192.168.0.104:8087/
-
-minio:
-  port: 9001
-  endpoint: 192.168.0.104
-  url: http://192.168.0.104:9001
-  ssl: false
-  username: admin
-  password: 12345678
-  bucket: automation_test
-  default:
-    folder: /
-
-

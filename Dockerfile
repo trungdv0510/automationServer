@@ -1,4 +1,5 @@
-FROM openjdk:11
+FROM openjdk:15.0.2-jdk
 EXPOSE 8085
-ADD target/server-automation.war server-automation.war
-ENTRYPOINT ["java","-war","-jar","/server-automation.war"]
+WORKDIR /automationServer
+ADD target/server-automation.jar /automationServer/
+ENTRYPOINT ["java","-jar","/app/server-automation.jar"]
