@@ -29,9 +29,9 @@ minio:
   endpoint: 192.168.0.104
   url: http://192.168.0.104:9001
   ssl: false
-  username: admin
-  password: 12345678
-  bucket: automation_test
+  username: minio
+  password: minio123
+  bucket: automation-test
   default:
     folder: /
 

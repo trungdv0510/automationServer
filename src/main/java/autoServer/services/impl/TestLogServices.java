@@ -5,8 +5,10 @@ import autoServer.DTO.TestLogDTO;
 import autoServer.Entity.TestLogEntity;
 import autoServer.Utils.contains;
 import autoServer.Utils.fileUtils;
+import autoServer.Utils.minioUtils;
 import autoServer.repository.TestLogRepository;
 import autoServer.services.ITestLogServices;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
+@Log4j2
 @Service
 public class TestLogServices implements ITestLogServices {
 
@@ -27,7 +30,8 @@ public class TestLogServices implements ITestLogServices {
 	private TestLogMapping mapping;
 	@Autowired
 	private TestLogRepository repository;
-
+	@Autowired
+	private minioUtils minio;
 	@Override
 	public boolean save(TestLogDTO testlog) {
 		boolean result = false;
@@ -126,6 +130,10 @@ public class TestLogServices implements ITestLogServices {
 			if (!repository.findAllTestWithTestCaseUUID(uuid).isEmpty()){
 				listTesLog = repository.findAllTestWithTestCaseUUID(uuid).stream().map(i -> mapping.toDTO(i))
 						.collect(Collectors.toList());
+				listTesLog.forEach(testLogDTO -> {
+					String fileName = testLogDTO.getStepName();
+					testLogDTO.setStepName(minio.getFileUrl(fileName));
+				});
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -139,6 +147,8 @@ public class TestLogServices implements ITestLogServices {
 		TestLogDTO testLog = null;
 		try {
 			testLog = mapping.toDTO(repository.findOneByUuid(id));
+			String fileName = testLog.getStepName();
+			testLog.setStepName(minio.getFileUrl(fileName));
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -147,39 +157,15 @@ public class TestLogServices implements ITestLogServices {
 
 	@Override
 	public String saveImgOrVideo(MultipartFile file) {
-		String filePath = "Error";
+		String fileName = "Error";
 		try {
-			String currentDirectory = System.getProperty("user.dir");
-			System.out.println("user.dir: " + currentDirectory);
-			System.out.println("Đã chạy vào đây ");
-			if (fileUtils.checkContenTypeFile(file)) {
-				int count = 0;
-				String fileName = contains.randomDate() + file.getOriginalFilename();
-				if(Objects.equals(file.getContentType(), contains.contenTypeImg)) {
-					System.out.println("Đã chạy vào đây check images");
-					filePath = contains.folderPublic + contains.folderImg + fileName;
-					 count++;
-				}
-				else if(Objects.equals(file.getContentType(), contains.contentTypeVideo)) {
-					System.out.println("Đã chạy vào đây check video");
-					filePath = contains.folderPublic + contains.folderVideo + fileName;
-					 count++;
-				}
-				if (count>=1) {
-					System.out.println("Bắt đầu lưu file ");
-					File convertFile = new File(filePath);
-					convertFile.createNewFile();
-					FileOutputStream fout = new FileOutputStream(convertFile);
-					fout.write(file.getBytes());
-					fout.close();
-					System.out.println("Lưu file thành công ");
-				}
-			}
+			fileName = LocalDateTime.now() + file.getOriginalFilename();
+			minio.uploadFile(fileName,file);
+			return fileName;
 		} catch (Exception e) {
 			// TODO: handle exceptionTC
 			System.err.println(">>>>>>>>>>>>>>>>>>>>lỗi nè "+e.getMessage());
 		}
-		System.out.println(filePath);
-		return filePath;
+		return null;
 	}
 }
