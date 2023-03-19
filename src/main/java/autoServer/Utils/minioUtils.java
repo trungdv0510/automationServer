@@ -1,9 +1,11 @@
 package autoServer.Utils;
 
+import autoServer.config.minioConfig;
 import io.minio.GetObjectArgs;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PutObjectArgs;
+import io.minio.http.Method;
 import io.minio.messages.Bucket;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
@@ -18,7 +20,7 @@ import java.util.List;
 @Service
 public class minioUtils {
     @Autowired
-    MinioClient minioClient;
+    MinioClient minioClient ;
     @Value("${minio.bucket}")
     String defaultBucketName;
 
@@ -39,6 +41,7 @@ public class minioUtils {
                     .bucket(defaultBucketName)
                     .object(name)
                     .stream(content.getInputStream(), content.getSize(), -1)
+                    .contentType(content.getContentType())
                     .build());
             return name;
         } catch (Exception e) {
@@ -49,7 +52,7 @@ public class minioUtils {
     public byte[] getFile(String fileName) {
         try {
             InputStream obj = minioClient.getObject(GetObjectArgs.builder()
-                    .bucket(fileName)
+                    .bucket(defaultBucketName)
                     .object(fileName)
                     .build());
 
@@ -64,7 +67,7 @@ public class minioUtils {
 
     public String getFileUrl(String fileName){
         try {
-           String url =  minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().bucket(defaultBucketName).object(fileName).build());
+           String url =  minioClient.getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder().bucket(defaultBucketName).object(fileName).method(Method.GET).build());
            return url;
         }catch (Exception e){
            log.error(e.getMessage());

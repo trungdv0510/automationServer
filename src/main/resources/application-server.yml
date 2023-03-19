@@ -23,3 +23,14 @@ spring:
         max-request-size: 128MB
 cors:
   url: http://192.168.0.104:8087/
+minio:
+  port: 9000
+  endpoint: 192.168.0.104
+  url: http://192.168.0.104:9000
+  ssl: false
+  access:
+    name: minio
+    secret: minio123
+  bucket: automation-test
+  default:
+    folder: /

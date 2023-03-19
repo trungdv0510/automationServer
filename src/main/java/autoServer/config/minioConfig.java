@@ -8,20 +8,26 @@ import org.springframework.context.annotation.Primary;
 
 @Configuration
 public class minioConfig {
-    @Value("${minio.username}")
+    @Value("${minio.access.name}")
     private String accessKey;
 
-    @Value("${minio.password}")
+    @Value("${minio.access.secret}")
     private String secretKey;
 
     @Value("${minio.url}")
     private String minioUrl;
+    @Value("${minio.port}")
+    private int minioPort;
+    @Value("${minio.endpoint}")
+    private String minioEndpoint;
+    @Value("${minio.ssl}")
+    private Boolean minioSsl;
     @Bean
     @Primary
     public MinioClient minioClient() {
         return new MinioClient.Builder()
+                .endpoint(minioEndpoint,minioPort,minioSsl)
                 .credentials(accessKey, secretKey)
-                .endpoint(minioUrl)
                 .build();
     }
 }

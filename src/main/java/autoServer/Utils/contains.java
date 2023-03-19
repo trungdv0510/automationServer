@@ -25,6 +25,8 @@ public class contains {
 	public static final String NO_REGRESS = "NO";
 	public static final String YES_REGRESS = "YES";
 	public static final String enityManagerName="autoDb";
+	public static final String video = "video";
+	public static final  String image = "image";
 	public static final String CLASSPATH= "classpath:template/";
 	public static final String AUTOMATION_REPORT_FILE_NAME = "automation_report.xlsx";
 	public static final MediaType APPLICATION_OCTET_STREAM = valueOf("application/octet-stream");

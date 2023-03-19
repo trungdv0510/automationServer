@@ -67,6 +67,12 @@ public class TestLogServices implements ITestLogServices {
 		List<TestLogDTO> testLogDTOs = new ArrayList<>();
 		try {
 			testLogDTOs = repository.findAll().stream().map(i -> mapping.toDTO(i)).collect(Collectors.toList());
+			testLogDTOs.forEach(item -> {
+				if (contains.image.contains(item.getDetail()) || contains.video.contains(item.getDetail())) {
+					String stepName = item.getStepName();
+					item.setStepName(minio.getFileUrl(stepName));
+				}
+			});
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -79,6 +85,12 @@ public class TestLogServices implements ITestLogServices {
 		List<TestLogDTO> testLogDTOs = new ArrayList<>();
 		try {
 			testLogDTOs = repository.findAll().stream().map(i -> mapping.toDTO(i)).collect(Collectors.toList());
+			testLogDTOs.forEach(item -> {
+				if (contains.image.contains(item.getDetail()) || contains.video.contains(item.getDetail())) {
+					String stepName = item.getStepName();
+					item.setStepName(minio.getFileUrl(stepName));
+				}
+			});
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -131,8 +143,10 @@ public class TestLogServices implements ITestLogServices {
 				listTesLog = repository.findAllTestWithTestCaseUUID(uuid).stream().map(i -> mapping.toDTO(i))
 						.collect(Collectors.toList());
 				listTesLog.forEach(testLogDTO -> {
-					String fileName = testLogDTO.getStepName();
-					testLogDTO.setStepName(minio.getFileUrl(fileName));
+					if (contains.image.contains(testLogDTO.getDetail()) || contains.video.contains(testLogDTO.getDetail())) {
+						String fileName = testLogDTO.getStepName();
+						testLogDTO.setStepName(minio.getFileUrl(fileName));
+					}
 				});
 			}
 		} catch (Exception e) {
@@ -147,8 +161,11 @@ public class TestLogServices implements ITestLogServices {
 		TestLogDTO testLog = null;
 		try {
 			testLog = mapping.toDTO(repository.findOneByUuid(id));
-			String fileName = testLog.getStepName();
-			testLog.setStepName(minio.getFileUrl(fileName));
+			if (contains.image.contains(testLog.getDetail()) || contains.video.contains(testLog.getDetail())) {
+				String fileName = testLog.getStepName();
+				testLog.setStepName(minio.getFileUrl(fileName));
+			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -160,8 +177,7 @@ public class TestLogServices implements ITestLogServices {
 		String fileName = "Error";
 		try {
 			fileName = LocalDateTime.now() + file.getOriginalFilename();
-			minio.uploadFile(fileName,file);
-			return fileName;
+			return minio.uploadFile(fileName,file);
 		} catch (Exception e) {
 			// TODO: handle exceptionTC
 			System.err.println(">>>>>>>>>>>>>>>>>>>>lỗi nè "+e.getMessage());

@@ -11,6 +11,7 @@ import autoServer.Entity.TestCaseEntity;
 import autoServer.Entity.TestSuiteEntity;
 import autoServer.Utils.FunctionUtils;
 import autoServer.Utils.contains;
+import autoServer.Utils.minioUtils;
 import autoServer.repository.RegresstionRepository;
 import autoServer.repository.TestLogRepository;
 import autoServer.repository.TestSuiteRepository;
@@ -43,6 +44,8 @@ public class TestSuiteServices implements ITestSuiteServices {
 	private TestLogRepository testLogRepository;
 	@Autowired
 	private RegresstionRepository regresstionRepository;
+	@Autowired
+	private minioUtils minio;
 	public boolean save(TestSuiteDTO testsuite) {
 		boolean result = false;
 		try {
@@ -135,6 +138,7 @@ public class TestSuiteServices implements ITestSuiteServices {
 	public testSuiteDetails findOneByUUID(String uuid) {
 		testSuiteDetails testSuiteDetails = new testSuiteDetails();
 		try {
+			List<String> listType = List.of(contains.image,contains.video);
 			TestSuiteEntity testSuiteEntity = testSuiteRepository.findOneByUUID(uuid);
 			TestSuiteDTO testestSuiteDTO = mapping.toDTO(testSuiteEntity);
 			List<List<TestLogDTO>> testlogList = new ArrayList<>();
@@ -146,9 +150,15 @@ public class TestSuiteServices implements ITestSuiteServices {
 													.collect(Collectors.toList());
 				for (TestCaseDTO testCaseDTO : testCaseDTOs) {
 					List<TestLogDTO> testLogEntities = testLogRepository.findAllTestWithTestCaseUUID(testCaseDTO.getUuid())
-														.stream()
-														.map(i->mappingTestLog.toDTO(i))
-														.collect(Collectors.toList());
+							.stream()
+							.map(i -> mappingTestLog.toDTO(i))
+							.collect(Collectors.toList());
+					testLogEntities.forEach(i->{
+						if (listType.contains(i.getDetail())){
+							String stepName = i.getStepName();
+							i.setStepName(minio.getFileUrl(stepName));
+						}
+					});
 					testlogList.add(testLogEntities);
 				}
 				testSuiteDetails.setTestSuiteDTO(testestSuiteDTO);
